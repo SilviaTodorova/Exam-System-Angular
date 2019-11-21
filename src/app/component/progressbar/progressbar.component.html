@@ -1,0 +1,88 @@
+<div class="card">
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <span class="table-add float-right mb-3 mr-2">
+        <a class="text-success">
+          <i class="fa fa-plus-circle fa-4x" style="color: #218838" aria-hidden="true" (click)="addExam()"
+          ></i>
+        </a>
+      </span>
+      <table
+        class="table table-bordered table-responsive-md table-striped text-center"
+      >
+        <tr>
+          <th class="text-center">№</th>
+          <th class="text-center">Име</th>
+          <th class="text-center">Брой въпроси</th>
+          <th class="text-center">Действия</th>
+        </tr>
+        <tr *ngFor="let exam of examList; let id = index">
+          <td>
+            <span>{{ id }}</span
+            >
+          </td>
+          <td>
+            <span>{{ exam.title }}</span
+            >
+          </td>
+          <td>
+            <span>{{ exam.countQuestions }}</span>
+          </td>
+          <td>
+            <span class="table-remove">
+              <button
+                type="button"
+                mdbBtn
+                color="danger"
+                rounded="true"
+                size="sm"
+                class="my-0"
+              >
+                <i
+                  class="fa fa-eye fa-lg"
+                  style="color: #28A745"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </span>
+            <span class="table-remove">
+              <button
+                type="button"
+                mdbBtn
+                color="danger"
+                rounded="true"
+                size="sm"
+                class="my-0"
+                (click)="editExam(exam.intId)"
+              >
+                <i
+                  class="fa fa-pencil-square-o fa-lg ml-2"
+                  style="color: #17A2B8"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </span>
+            <span class="table-remove">
+              <button
+                type="button"
+                mdbBtn
+                color="danger"
+                rounded="true"
+                size="sm"
+                class="my-0"
+                (click)="deleteExam(exam.intId)"
+              >
+                <i
+                  class="fa fa-trash fa-lg ml-2"
+                  style="color: #F62D51"
+                  aria-hidden="true"
+                ></i>
+              </button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Editable table -->

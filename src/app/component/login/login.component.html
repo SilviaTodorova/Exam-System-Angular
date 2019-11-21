@@ -1,0 +1,259 @@
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100">
+      <div
+        class="login100-form-title"
+        style="background-image: url(../../assets/login/images/bg-01.jpg);"
+      >
+        <span class="login100-form-title-1">
+          <img width="75%" src="../../assets/images/logo/text-logo-white.png" />
+        </span>
+      </div>
+
+      <form
+        *ngIf="isSignInForm"
+        class="login100-form validate-form"
+        #loginForm="ngForm"
+      >
+        <div class="wrap-input100 validate-input m-b-26">
+          <span class="label-input100">Потребителско име</span>
+          <input
+            class="input100"
+            type="text"
+            name="username"
+            required
+            minlength="4"
+            #username="ngModel"
+            [(ngModel)]="registerModel.username"
+            placeholder="Въведете потребителско име"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="username.errors.required">
+              Полето е задължително
+            </div>
+            <div *ngIf="username.errors.minlength">
+              Потребителското име трябва да е с дължина поне 4 символа
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-18">
+          <span class="label-input100">Парола</span>
+          <input
+            class="input100"
+            type="password"
+            name="password"
+            required
+            #password="ngModel"
+            [(ngModel)]="registerModel.password"
+            placeholder="Въведете парола"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="password.errors.required">
+              Полето е задължително
+            </div>
+          </div>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <button
+            class="btn btn-block btn-success text-white ml-3"
+            [disabled]="!username.invalid && !password.invalid ? false : true"
+            (click)="!username.invalid && !password.invalid ? signIn() : false"
+          >
+            Вход
+          </button>
+          <button
+            class="btn btn-block btn-info-custom text-white ml-3"
+            (click)="switchForm()"
+          >
+            Регистрация
+          </button>
+          <button
+            class="btn btn-block btn-warning text-white ml-3"
+            [routerLink]="['/exam']"
+          >
+            <img width="25px" src="../../assets/images/logo.png" />
+            <span class="ml-3">Започни тест</span>
+          </button>
+        </div>
+      </form>
+
+      <form
+        *ngIf="!isSignInForm"
+        class="login100-form validate-form"
+        #registerForm="ngForm"
+      >
+        <div class="wrap-input100 validate-input m-b-26">
+          <span class="label-input100">Потребителско име</span>
+          <input
+            class="input100"
+            type="text"
+            name="username"
+            required
+            minlength="4"
+            #username="ngModel"
+            [(ngModel)]="registerModel.username"
+            placeholder="Въведете потребителско име"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="username.invalid && (username.dirty || username.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="username.errors.required">
+              Полето е задължително
+            </div>
+            <div *ngIf="username.errors.minlength">
+              Потребителското име трябва да е с дължина поне 4 символа
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-26">
+          <span class="label-input100">Имейл</span>
+          <input
+            class="input100"
+            type="email"
+            name="email"
+            email
+            #email="ngModel"
+            required
+            [(ngModel)]="registerModel.email"
+            placeholder="Въведете имейл"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="email.invalid && (email.dirty || email.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="email.errors.required">
+              Полето е задължително
+            </div>
+
+            <div *ngIf="email.errors.email">
+              Невалиден имейл
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-18">
+          <span class="label-input100">Парола</span>
+          <input
+            class="input100"
+            type="password"
+            name="password"
+            required
+            #password="ngModel"
+            [(ngModel)]="registerModel.password"
+            placeholder="Въведете парола"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="password.invalid && (password.dirty || password.touched)"
+            class="alert alert-danger"
+          >
+            <div *ngIf="password.errors.required">
+              Полето е задължително
+            </div>
+          </div>
+        </div>
+
+        <div class="wrap-input100 validate-input m-b-18">
+          <span class="label-input100">Повтори паролата</span>
+          <input
+            class="input100"
+            type="password"
+            name="confirmPassword"
+            required
+            #confirmPassword="ngModel"
+            [(ngModel)]="registerModel.confirmPassword"
+            placeholder="Въведете отново паролата"
+          />
+          <span class="focus-input100"></span>
+          <div
+            *ngIf="
+              (confirmPassword.invalid &&
+                (confirmPassword.dirty || confirmPassword.touched)) ||
+              (confirmPassword.model &&
+                password.model &&
+                confirmPassword.model != password.model)
+            "
+            class="alert alert-danger"
+          >
+            <div
+              *ngIf="confirmPassword.errors && confirmPassword.errors.required"
+            >
+              Полето е задължително
+            </div>
+
+            <div
+              *ngIf="
+                confirmPassword.model &&
+                password.model &&
+                confirmPassword.model != password.model
+              "
+            >
+              Двете пароли не съвпадат
+            </div>
+          </div>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <button
+            class="btn btn-block btn-info-custom text-white ml-3"
+            [disabled]="
+              !username.invalid &&
+              !email.invalid &&
+              !password.invalid &&
+              !confirmPassword.invalid &&
+              !(
+                confirmPassword.model &&
+                password.model &&
+                confirmPassword.model != password.model
+              )
+                ? false
+                : true
+            "
+            (click)="
+              !username.invalid &&
+              !email.invalid &&
+              !password.invalid &&
+              !confirmPassword.invalid &&
+              !(
+                confirmPassword.model &&
+                password.model &&
+                confirmPassword.model != password.model
+              )
+                ? register()
+                : false
+            "
+          >
+            Регистрация
+          </button>
+          <button
+            class="btn btn-block btn-success text-white ml-3"
+            (click)="switchForm()"
+          >
+            Вход
+          </button>
+          <button
+            class="btn btn-block btn-warning text-white ml-3"
+            [routerLink]="['/exam']"
+          >
+            <img width="25px" src="../../assets/images/logo.png" />
+            <span class="ml-3">Започни тест</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

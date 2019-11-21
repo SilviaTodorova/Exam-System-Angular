@@ -1,0 +1,15 @@
+.text-muted {
+    font-size: 20px; 
+    color: black !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-text {
+    font-size: 20px; 
+    color: black !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card {
+    height: 100% !important;
+}

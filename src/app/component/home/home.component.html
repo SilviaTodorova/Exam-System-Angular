@@ -1,0 +1,56 @@
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100">
+      <div
+        class="login100-form-title"
+        style="background-image: url(../../assets/login/images/bg-01.jpg);"
+      >
+        <span class="login100-form-title-1">
+          <!-- Онлайн тестове -->
+          <img width="75%" src="../../assets/images/logo/text-logo-white.png" />
+        </span>
+      </div>
+
+      <div class="container-fluid container-home">
+        <div class="row">
+          <div class="col col-12">
+            <!-- <img width="50%" src="../../assets/images/logo/text-logo-black.png"> -->
+
+            <p class="text-info">
+              Система, която е предназначена за преподаватели и студенти. Тя
+              улеснява провеждането на контролни и изпити. Предоставя възможност
+              на преподавателите лесно да създават и управляват тестове за
+              конкретен предмет. Чрез тази система те могат да определят
+              времето, с което разполагат студентите, за решаване на теста, броя
+              на въпросите, както и да получават статистики за резултатите от
+              проведените контролни. При завършен тест се изпраща имейл до
+              преподавателя, който го е създал. Студентите имат възможност да се явяват на контролни без регистрация в системата.
+              Те трябва да въведат имейл, на който да получат обратна връзка, и факултетен номер.
+              Студентите се включват към провеждането на тест чрез специален код. При предаване
+              на отговорите, те получават имейл за обратна връзка с крайната оценка, както и имат
+              възможност да прегледат своя резултат на всеки въпрос.
+            </p>
+          </div>
+          <div class="col col-6">
+            <button
+              style="height: 42px"
+              class="btn btn-block btn-success text-white"
+              [routerLink]="['login']"
+            >
+              Вход
+            </button>
+          </div>
+          <div class="col col-6">
+            <button
+              class="btn btn-block btn-info-custom text-white ml-3"
+              [routerLink]="['exam']"
+            >
+              <img width="25px" src="../../assets/images/logo.png" />
+              <span class="ml-3">Започни тест</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+.container-home{
+    padding: 5%;
+}
+
+.text-info {
+    font-size: 20px;
+    color: black !important;
+    text-align: justify;
+}
+
+.wrap-login100 {
+    width: 870px;
+}
+
+.btn-info-custom {
+    background-color: #17a2b8 !important;
+}
