@@ -3,6 +3,8 @@ import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Exam } from 'src/app/models/exam/exam';
 
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 @Component({
   selector: 'app-ngbd-progressbar',
   templateUrl: './progressbar.component.html',
@@ -18,7 +20,12 @@ export class NgbdpregressbarBasicComponent {
       { intId: 5, title: 'Управление на качеството', countQuestions: 31, timeLimit: 20, questions: null},
     ];
 
-  constructor(private router: Router) { }
+    closeResult: string;
+
+    
+  constructor(private router: Router, private modalService: NgbModal) { }
+
+
 
   addExam(){
     this.router.navigate(['/component/add-exam']);
@@ -30,5 +37,9 @@ export class NgbdpregressbarBasicComponent {
 
   deleteExam(id: number){
     console.log("Modal");
+  }
+
+  openModal(content3) {
+    this.modalService.open(content3, { centered: true });
   }
 }

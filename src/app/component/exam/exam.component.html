@@ -41,50 +41,119 @@
 </div>
 
 <div *ngIf="isExamStarted" class="limiter">
-  <div class="container-login100">
-    <div class="wrap-login100">
-      <div
-        class="login100-form-title"
-        style="background-image: url(../../assets/images/background1.jpg);"
-      >
-        <span class="login100-form-title-1">
-          Въпрос {{ currQuestion.orderId }}
-        </span>
-      </div>
-
-      <div style="padding: 5% 5% 0 5%">
-        <h4>
-          {{ currQuestion.title }}
-        </h4>
-        <h5>Изберете едно:</h5>
-      </div>
-      <div style="padding-left: 5%;">
-        <div *ngFor="let answer of currQuestion.answers">
-          <!-- <input type="radio" name="answer.intId" [(ngModel)]="answer.selected"/>{{
-            answer.title
-          }}<br /> -->
-
-          <input id="{{currQuestion.orderId}}_answer_{{answer.intId}}" type="checkbox" name="answers" [(ngModel)]="answer.selected" (change)="selectAnswer(answer.intId)">{{answer.title}}<br />
+    <div class="container-login100">
+      <div class="wrap-login100 wrap-large">
+        <div
+          class="login100-form-title"
+          style="background-image: url(../../assets/login/images/bg-01.jpg);"
+        >
+          <span class="login100-form-title-1">
+            {{ exam.title }}
+          </span>
         </div>
-      </div>
-
-      <div class="row" style="padding: 5% 1% 5% 1%;">
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-          <button class="btn btn-success text-white" (click)="previousQuestion()" [disabled]="currQuestion.orderId == 1 ? true : false">
-            Назад
-          </button>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-          <button class="btn btn-success text-white" (click)="finishExam()">
-            Приключване на тест
-          </button>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
-          <button class="btn btn-success text-white" (click)="nextQuestion()" [disabled]="currQuestion.orderId == exam.countQuestions ? true : false">
-            Напред
-          </button>
-        </div>
+  
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <div class="card no-border">
+                <div class="card-body">
+                  <div id="table" class="table-editable">
+                    <table
+                      class="table table-bordered table-responsive-md table-striped"
+                    >
+                      <tr>
+                        <th>{{ orderId }}</th>
+                        <th>
+                          {{ exam.questions[orderId - 1].title }}
+                        </th>
+                      </tr>
+                      <tr
+                        *ngFor="let answer of exam.questions[orderId - 1].answers"
+                      >
+                        <td>
+                          <input
+                            type="checkbox"
+                            name="answers"
+                            [ngModel]="answer.selected"
+                            (change)="selectAnswer(answer.intId)"
+                          />
+                        </td>
+                        <td>
+                          <span> {{ answer.title }}</span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+    
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <button
+                        class="btn btn-info-custom text-white"
+                        (click)="previousQuestion()"
+                        [disabled]="
+                          exam.questions[orderId - 1].orderId == 1 ? true : false
+                        "
+                      >
+                        Назад
+                      </button>
+    
+                      <button
+                        class="btn btn-info-custom text-white"
+                        (click)="nextQuestion()"
+                        [disabled]="
+                          exam.questions[orderId - 1].orderId == exam.countQuestions
+                            ? true
+                            : false
+                        "
+                      >
+                        Напред
+                      </button>
+    
+                      <button
+                        class="btn btn-success text-white"
+                        (click)="finishExam()"
+                      >
+                        Приключване на тест
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-4 col-md-4 col-sm-12 col-xs-12"
+              style="padding: 1.25rem;"
+            >
+              <div class="card">
+                <div class="card-header bg-success text-white">
+                  Информация
+                </div>
+                <div class="card-body text-center">
+                  <h1>1 ЧАС 30 МИНУТИ 10 СЕК</h1>
+                </div>
+              </div>
+    
+              <br /><br />
+    
+              <div class="card">
+                <div class="card-header bg-success text-white">
+                  ВЪПРОСИ
+                </div>
+                <div class="card-body card-text text-black">
+                  <span  *ngFor="let question of exam.questions">
+                      <button
+                        [ngClass]="calculateClasses(question.orderId)"
+                        (click)="loadQuestion(question.orderId)"
+                      >
+                        {{question.orderId}}
+                      </button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </div>
   </div>
-</div>
+
+
+        

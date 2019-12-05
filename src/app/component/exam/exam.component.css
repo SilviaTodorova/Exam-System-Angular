@@ -4,5 +4,21 @@
 
 .btn {
     margin: 5px;
-    width: 100%;
+    /* width: 100%; */
+}
+
+.wrap-large {
+    width: 1870px;
+}
+
+.no-border {
+    border: 0px;
+}
+
+.answered {
+    background-color: green;
+}
+
+.not-answered {
+    background-color: gray;
 }

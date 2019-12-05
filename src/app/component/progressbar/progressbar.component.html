@@ -3,7 +3,11 @@
     <div id="table" class="table-editable">
       <span class="table-add float-right mb-3 mr-2">
         <a class="text-success">
-          <i class="fa fa-plus-circle fa-4x" style="color: #218838" aria-hidden="true" (click)="addExam()"
+          <i
+            class="fa fa-plus-circle fa-4x"
+            style="color: #218838"
+            aria-hidden="true"
+            (click)="addExam()"
           ></i>
         </a>
       </span>
@@ -18,12 +22,10 @@
         </tr>
         <tr *ngFor="let exam of examList; let id = index">
           <td>
-            <span>{{ id }}</span
-            >
+            <span>{{ id }}</span>
           </td>
           <td>
-            <span>{{ exam.title }}</span
-            >
+            <span>{{ exam.title }}</span>
           </td>
           <td>
             <span>{{ exam.countQuestions }}</span>
@@ -37,6 +39,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
+                (click)="openModal(preview)"
               >
                 <i
                   class="fa fa-eye fa-lg"
@@ -70,7 +73,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="deleteExam(exam.intId)"
+                (click)="openModal(delete)"
               >
                 <i
                   class="fa fa-trash fa-lg ml-2"
@@ -86,3 +89,64 @@
   </div>
 </div>
 <!-- Editable table -->
+
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Изтриване на въпрос</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>Сигурни ли сте, че искате на изтриете избрания въпрос?</h5>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="modal.close('Close click')"
+    >
+      Потвърди
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close('Close click')"
+    >
+      Затвори
+    </button>
+  </div>
+</ng-template>
+
+
+<ng-template #preview let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Преглед на въпрос</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <h5>++++++++</h5>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.close('Close click')"
+      >
+        Затвори
+      </button>
+    </div>
+  </ng-template>
+  
