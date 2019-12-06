@@ -30,7 +30,6 @@ export class LoginComponent implements OnInit {
   }
 
   register(){
-    alert("valid");
     console.log("register", this.registerModel);
   }
 }

@@ -3,6 +3,7 @@ import { Exam, Question, Answer } from '../../models/exam/exam';
 import { Title } from '@angular/platform-browser';
 
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-exam',
@@ -16,7 +17,7 @@ export class ExamComponent implements OnInit {
   exam: Exam;
   orderId: number;
 
-  constructor() { }
+  constructor(private modalService: NgbModal,private router: Router) { }
 
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class ExamComponent implements OnInit {
 
   finishExam() {
     console.log(this.exam);
+    this.router.navigate(['/']);
   }
 
   nextQuestion() {
@@ -61,6 +63,10 @@ export class ExamComponent implements OnInit {
 
   loadQuestion(orderId: number) {
     this.orderId = orderId;
+  }
+
+  openModal(content3) {
+    this.modalService.open(content3, { centered: true });
   }
 
   //Service

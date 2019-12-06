@@ -110,7 +110,7 @@
     
                       <button
                         class="btn btn-success text-white"
-                        (click)="finishExam()"
+                        (click)="openModal(finish)"
                       >
                         Приключване на тест
                       </button>
@@ -155,5 +155,40 @@
     </div>
   </div>
 
+
+  
+<ng-template #finish let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Предаване на отговорите</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5>Сигурни ли сте, че искате да завършите изпълнението на теста?</h5>
+    <h6>Резултатът ще получите на посочения от вас имейл.</h6>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="modal.close('Close click'); finishExam()"
+    >
+      Потвърди
+    </button>
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close('Close click')"
+    >
+      Затвори
+    </button>
+  </div>
+</ng-template>
 
         

@@ -13,12 +13,7 @@ export const ComponentsRoutes: Routes = [
         path: 'progressbar',
         component: NgbdpregressbarBasicComponent,
         data: {
-          title: 'Налични тестове',
-          urls: [
-            { title: 'Dashboard', url: '/dashboard' },
-            { title: 'ngComponent' },
-            { title: 'Налични тестове' }
-          ]
+          title: 'Налични тестове'
         }
       },
       {
@@ -37,7 +32,7 @@ export const ComponentsRoutes: Routes = [
         path: 'add-exam',
         component: AddExamComponent,
         data: {
-          title: 'Добави изпит',
+          title: '',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngComponent' },
