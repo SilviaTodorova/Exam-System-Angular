@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
-import { NgbdpregressbarBasicComponent } from './progressbar/progressbar.component';
-import { NgbdratingBasicComponent } from './rating/rating.component';
+import { TeacherExamComponent } from './teacher-exams/teacher-exam.component';
+import { ResultsComponent } from './results/results.component';
 import { AddExamComponent } from './add-exam/add-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
 import { PreviewExamComponent } from './preview-exam/preview-exam.component';
@@ -11,15 +11,15 @@ export const ComponentsRoutes: Routes = [
     path: '',
     children: [
       {
-        path: 'progressbar',
-        component: NgbdpregressbarBasicComponent,
+        path: 'teacher-exam',
+        component: TeacherExamComponent,
         data: {
           title: 'Налични тестове'
         }
       },
       {
-        path: 'rating',
-        component: NgbdratingBasicComponent,
+        path: 'results',
+        component: ResultsComponent,
         data: {
           title: 'Резултати',
           urls: [

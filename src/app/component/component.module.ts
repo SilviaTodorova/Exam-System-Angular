@@ -6,14 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ComponentsRoutes } from './component.routing';
-import { NgbdpregressbarBasicComponent } from './progressbar/progressbar.component';
-import { NgbdAlertBasicComponent } from './alert/alert.component';
-import { NgbdModalBasicComponent } from './modal/modal.component';
-import { NgbdPopTooltipComponent } from './popover-tooltip/popover-tooltip.component';
-import { NgbdratingBasicComponent } from './rating/rating.component';
+import { TeacherExamComponent } from './teacher-exams/teacher-exam.component';
+import { ResultsComponent } from './results/results.component';
 import { AddExamComponent } from './add-exam/add-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
 import { PreviewExamComponent } from './preview-exam/preview-exam.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,14 +21,12 @@ import { PreviewExamComponent } from './preview-exam/preview-exam.component';
     NgbModule
   ],
   declarations: [
-    NgbdpregressbarBasicComponent,
-    NgbdAlertBasicComponent,
-    NgbdModalBasicComponent,
-    NgbdPopTooltipComponent,
-    NgbdratingBasicComponent,
+    TeacherExamComponent,
+    ResultsComponent,
     AddExamComponent,
     EditExamComponent,
     PreviewExamComponent
   ]
 })
-export class ComponentsModule {}
+export class ComponentsModule {
+}

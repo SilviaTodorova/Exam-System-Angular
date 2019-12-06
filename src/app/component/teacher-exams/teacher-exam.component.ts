@@ -3,15 +3,15 @@ import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Exam } from 'src/app/models/exam/exam';
 
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-ngbd-progressbar',
-  templateUrl: './progressbar.component.html',
-  styleUrls: ['./progressbar.component.css'],
+  templateUrl: './teacher-exam.component.html',
+  styleUrls: ['./teacher-exam.component.css'],
   providers: [NgbProgressbarConfig]
 })
-export class NgbdpregressbarBasicComponent {
+export class TeacherExamComponent {
   examList: Array<Exam> = [
       { intId: 1, title: 'XML технологии за семантичен Уеб', countQuestions: 30, timeLimit: 20, questions: null},
       { intId: 2, title: 'Увод в софтуерното инженерство', countQuestions: 45, timeLimit: 20, questions: null},

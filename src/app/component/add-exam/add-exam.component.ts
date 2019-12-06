@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Exam, Question, Answer } from 'src/app/models/exam/exam';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-exam',
@@ -20,32 +20,20 @@ export class AddExamComponent implements OnInit {
 
   editField: string;
 
-  // awaitingPersonList: Array<any> = [
-   
-  // ];
-
   updateList(id: number, property: string, event: any) {
     const editField = event.target.textContent;
     this.model.questions[id][property] = editField;
   }
 
   remove(id: any) {
-   // this.awaitingPersonList.push(this.model.questions[id]);
     this.model.questions.splice(id, 1);
   }
 
   removeAnswer(id: any) {
-    // this.awaitingPersonList.push(this.model.questions[id]);
      this.answers.splice(id, 1);
    }
 
   add() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
-
     let orderIds = this.model.questions.map(x=>x.orderId).sort();
     let max = orderIds[orderIds.length-1];
     let newQuestion: Question = new Question();
@@ -53,17 +41,9 @@ export class AddExamComponent implements OnInit {
     newQuestion.orderId = max + 1;
     
     this.model.questions.push(newQuestion);
-   // this.awaitingPersonList.splice(0, 1);
-
   }
 
   addAnswer() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
-
     let ids = this.answers.map(x=>x.intId).sort();
     let max = ids[ids.length-1];
     let newAnswer: Answer = new Answer();
@@ -71,7 +51,6 @@ export class AddExamComponent implements OnInit {
     newAnswer.intId = max + 1;
     
     this.answers.push(newAnswer);
-   // this.awaitingPersonList.splice(0, 1);
 
   }
 

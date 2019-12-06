@@ -10,7 +10,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/component/rating',
+    path: '/component/results',
     title: 'Резултати',
     icon: 'mdi mdi-bandcamp',
     class: '',
@@ -18,7 +18,7 @@ export const ROUTES: RouteInfo[] = [
     submenu: []
   },
   {
-    path: '/component/progressbar',
+    path: '/component/teacher-exam',
     title: 'Налични тестове',
     icon: 'mdi mdi-poll',
     class: '',
