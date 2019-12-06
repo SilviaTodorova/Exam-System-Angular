@@ -13,6 +13,7 @@ import { NgbdPopTooltipComponent } from './popover-tooltip/popover-tooltip.compo
 import { NgbdratingBasicComponent } from './rating/rating.component';
 import { AddExamComponent } from './add-exam/add-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
+import { PreviewExamComponent } from './preview-exam/preview-exam.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -28,7 +29,8 @@ import { EditExamComponent } from './edit-exam/edit-exam.component';
     NgbdPopTooltipComponent,
     NgbdratingBasicComponent,
     AddExamComponent,
-    EditExamComponent
+    EditExamComponent,
+    PreviewExamComponent
   ]
 })
 export class ComponentsModule {}

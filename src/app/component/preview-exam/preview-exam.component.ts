@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { Exam, Answer, Question } from 'src/app/models/exam/exam';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
-import { Exam, Question, Answer } from 'src/app/models/exam/exam';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-edit-exam',
-  templateUrl: './edit-exam.component.html',
-  styleUrls: ['./edit-exam.component.css']
+  selector: 'app-preview-exam',
+  templateUrl: './preview-exam.component.html',
+  styleUrls: ['./preview-exam.component.css']
 })
-
-export class EditExamComponent implements OnInit {
+export class PreviewExamComponent implements OnInit {
   id: number;
   questionsList: Question[] = [];
   
@@ -33,64 +32,6 @@ export class EditExamComponent implements OnInit {
 
   editField: string;
 
-  // awaitingPersonList: Array<any> = [
-   
-  // ];
-
-  updateList(id: number, property: string, event: any) {
-    const editField = event.target.textContent;
-    this.model.questions[id][property] = editField;
-  }
-
-  remove(id: any) {
-   // this.awaitingPersonList.push(this.model.questions[id]);
-    this.model.questions.splice(id, 1);
-  }
-
-  removeAnswer(id: any) {
-    // this.awaitingPersonList.push(this.model.questions[id]);
-     this.answers.splice(id, 1);
-   }
-
-  add() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
-
-    let orderIds = this.model.questions.map(x=>x.orderId).sort();
-    let max = orderIds[orderIds.length-1];
-    let newQuestion: Question = new Question();
-    newQuestion.title = "xxx";
-    newQuestion.orderId = max + 1;
-    
-    this.model.questions.push(newQuestion);
-   // this.awaitingPersonList.splice(0, 1);
-
-  }
-
-  addAnswer() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
-
-    let ids = this.answers.map(x=>x.intId).sort();
-    let max = ids[ids.length-1];
-    let newAnswer: Answer = new Answer();
-    newAnswer.title = "xxx";
-    newAnswer.intId = max + 1;
-    
-    this.answers.push(newAnswer);
-   // this.awaitingPersonList.splice(0, 1);
-
-  }
-
-  changeValue(id: number, property: string, event: any) {
-    this.editField = event.target.textContent;
-  }
 
   openModal(content, orderId) {
     this.modalService.open(content, { centered: true,size: 'lg' });
@@ -99,16 +40,6 @@ export class EditExamComponent implements OnInit {
     this.answers = this.model.questions.filter(x=>x.orderId == orderId)[0].answers;
     console.log("XX",this.model.questions.filter(x=>x.orderId == orderId)[0].title);
     this.questTitle = this.model.questions.filter(x=>x.orderId == orderId)[0].title;
-  }
-
-  selectAnswer(intId: number) {
-    this.answers.forEach(x => {
-      if (x.intId == intId) {
-        x.selected = true;
-      } else {
-        x.selected = false;
-      }
-    })
   }
 
   //Service
@@ -166,10 +97,6 @@ export class EditExamComponent implements OnInit {
       ]
     };
 
-    console.log(this.model);
-  }
-
-  save(){
     console.log(this.model);
   }
 

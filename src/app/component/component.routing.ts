@@ -4,6 +4,7 @@ import { NgbdpregressbarBasicComponent } from './progressbar/progressbar.compone
 import { NgbdratingBasicComponent } from './rating/rating.component';
 import { AddExamComponent } from './add-exam/add-exam.component';
 import { EditExamComponent } from './edit-exam/edit-exam.component';
+import { PreviewExamComponent } from './preview-exam/preview-exam.component';
 
 export const ComponentsRoutes: Routes = [
   {
@@ -32,7 +33,7 @@ export const ComponentsRoutes: Routes = [
         path: 'add-exam',
         component: AddExamComponent,
         data: {
-          title: '',
+          title: 'Добави тест',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngComponent' },
@@ -44,7 +45,19 @@ export const ComponentsRoutes: Routes = [
         path: 'edit-exam',
         component: EditExamComponent,
         data: {
-          title: 'Редактирай изпит',
+          title: 'Редактирай тест',
+          urls: [
+            { title: 'Dashboard', url: '/dashboard' },
+            { title: 'ngComponent' },
+            { title: 'Редактирай изпит' }
+          ]
+        }
+      },
+      {
+        path: 'preview-exam',
+        component: PreviewExamComponent,
+        data: {
+          title: 'Преглед тест',
           urls: [
             { title: 'Dashboard', url: '/dashboard' },
             { title: 'ngComponent' },

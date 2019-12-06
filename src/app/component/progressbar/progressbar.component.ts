@@ -35,6 +35,10 @@ export class NgbdpregressbarBasicComponent {
     this.router.navigate(['/component/edit-exam'], { queryParams: {id: id}});
   }
 
+  previewExam(id: number){
+    this.router.navigate(['/component/preview-exam'], { queryParams: {id: id}});
+  }
+
   deleteExam(id: number){
     console.log("Modal");
   }

@@ -1,0 +1,151 @@
+<form class="login100-form validate-form" #loginForm="ngForm">
+    <div class="wrap-input100 validate-input m-b-26">
+      <span class="label-input100">Име</span>
+      <input
+        class="input100"
+        type="text"
+        name="title"
+        disabled
+        #title="ngModel"
+        [(ngModel)]="model.title"
+      />
+      <span class="focus-input100"></span>
+    </div>
+  
+    <div class="wrap-input100 validate-input m-b-18">
+      <span class="label-input100">Брой въпроси</span>
+      <input
+        class="input100"
+        type="number"
+        name="countQuestions"
+        disabled
+        #countQuestions="ngModel"
+        [(ngModel)]="model.countQuestions"
+        value="{{ model.questions.length }}"
+      />
+      <span class="focus-input100"></span>
+    </div>
+  
+    <div class="wrap-input100 validate-input m-b-18">
+      <span class="label-input100">Време (минути)</span>
+      <input
+        class="input100"
+        type="number"
+        disabled
+        name="timeLimit"
+        #timeLimit="ngModel"
+        [(ngModel)]="model.timeLimit"
+      />
+      <span class="focus-input100"></span>
+    </div>
+  </form>
+  
+  <!------------------------------- Questions table --------------------------------->
+  
+  <div class="card">
+    <div class="card-body">
+      <div id="table" class="table-editable">
+        <table
+          class="table table-bordered table-responsive-md table-striped text-center"
+        >
+          <tr>
+            <th class="text-center">№</th>
+            <th class="text-center">Въпрос</th>
+            <th class="text-center">Действия</th>
+          </tr>
+          <tr *ngFor="let question of model.questions; let id = index">
+            <td>
+              <span>{{ question.orderId }}</span>
+            </td>
+            <td class="text-left">
+              <span
+                >{{ question.title }}</span
+              >
+            </td>
+  
+            <td>
+              <span class="table-remove">
+                <span class="table-remove">
+                  <button
+                    type="button"
+                    mdbBtn
+                    color="danger"
+                    rounded="true"
+                    size="sm"
+                    class="my-0"
+                    (click)="openModal(preview, question.orderId)"
+                  >
+                    <i
+                      class="fa fa-eye fa-lg"
+                      style="color: #28A745"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                </span>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  <!------------------------------- Back --------------------------------->
+  
+  <button class="btn btn-block btn-success text-white ml-3" [routerLink]="['/component/progressbar']">
+    Назад
+  </button>
+  
+  <!------------------------------- Modal --------------------------------->
+  
+  <ng-template #preview let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">{{questTitle}}</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!------------------------------- Answers table --------------------------------->
+  
+      <div id="table" class="table-editable">
+        <table
+          class="table table-bordered table-responsive-md table-striped text-center"
+        >
+          <tr>
+            <th class="text-center">№</th>
+            <th class="text-center">Отговор</th>
+            <th class="text-center">Правилен</th>
+          </tr>
+          <tr *ngFor="let answer of answers; let id = index">
+            <td>
+              <span>{{ answer.intId }}</span>
+            </td>
+            <td class="text-left">
+              <span
+                >{{ answer.title }}</span
+              >
+            </td>
+            <td class="text-center">
+              <input type="checkbox" name="answers" [ngModel]="answer.selected" disabled/>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="modal.close('Close click')"
+      >
+        Затвори
+      </button>
+    </div>
+  </ng-template>
+  

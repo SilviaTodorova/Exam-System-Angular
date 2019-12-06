@@ -32,10 +32,10 @@
             *ngIf="username.invalid && (username.dirty || username.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="username.errors.required">
+            <div *ngIf="username?.errors.required">
               Полето е задължително
             </div>
-            <div *ngIf="username.errors.minlength">
+            <div *ngIf="username?.errors.minlength">
               Потребителското име трябва да е с дължина поне 4 символа
             </div>
           </div>
@@ -57,7 +57,7 @@
             *ngIf="password.invalid && (password.dirty || password.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="password.errors.required">
+            <div *ngIf="password?.errors.required">
               Полето е задължително
             </div>
           </div>
@@ -109,10 +109,10 @@
             *ngIf="username.invalid && (username.dirty || username.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="username.errors.required">
+            <div *ngIf="username?.errors.required">
               Полето е задължително
             </div>
-            <div *ngIf="username.errors.minlength">
+            <div *ngIf="username?.errors.minlength">
               Потребителското име трябва да е с дължина поне 4 символа
             </div>
           </div>
@@ -135,11 +135,11 @@
             *ngIf="email.invalid && (email.dirty || email.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="email.errors.required">
+            <div *ngIf="email?.errors.required">
               Полето е задължително
             </div>
 
-            <div *ngIf="email.errors.email">
+            <div *ngIf="email?.errors.email">
               Невалиден имейл
             </div>
           </div>
@@ -161,7 +161,7 @@
             *ngIf="password.invalid && (password.dirty || password.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="password.errors.required">
+            <div *ngIf="password?.errors.required">
               Полето е задължително
             </div>
           </div>
@@ -190,7 +190,7 @@
             class="alert alert-danger"
           >
             <div
-              *ngIf="confirmPassword.errors && confirmPassword.errors.required"
+              *ngIf="confirmPassword.errors && confirmPassword?.errors.required"
             >
               Полето е задължително
             </div>

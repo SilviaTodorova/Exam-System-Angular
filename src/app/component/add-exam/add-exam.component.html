@@ -16,10 +16,10 @@
       *ngIf="title.invalid && (title.dirty || title.touched)"
       class="alert alert-danger"
     >
-      <div *ngIf="title.errors.required">
+      <div *ngIf="title?.errors.required">
         Полето е задължително
       </div>
-      <div *ngIf="title.errors.minlength">
+      <div *ngIf="title?.errors.minlength">
         Име трябва да е с дължина поне 4 символа
       </div>
     </div>
@@ -46,7 +46,7 @@
       "
       class="alert alert-danger"
     >
-      <div *ngIf="countQuestions.errors.required">
+      <div *ngIf="countQuestions?.errors.required">
         Полето е задължително
       </div>
     </div>
@@ -68,7 +68,7 @@
       *ngIf="timeLimit.invalid && (timeLimit.dirty || timeLimit.touched)"
       class="alert alert-danger"
     >
-      <div *ngIf="timeLimit.errors.required">
+      <div *ngIf="timeLimit?.errors.required">
         Полето е задължително
       </div>
     </div>
@@ -158,6 +158,10 @@
 
 <button class="btn btn-block btn-success text-white ml-3" (click)="save()">
   Запиши
+</button>
+
+<button class="btn btn-block btn-success text-white ml-3" [routerLink]="['/component/progressbar']">
+  Назад
 </button>
 
 <!------------------------------- Modal --------------------------------->
