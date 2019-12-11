@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SignIn } from '../../models/login/sign-in';
 import { Register } from '../../models/login/register';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,11 @@ export class LoginComponent implements OnInit {
   signInModel: SignIn = new SignIn();
   registerModel: Register = new Register();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private accountService: AccountService) { }
 
   ngOnInit() {
+
   }
 
   switchForm(){
@@ -25,11 +28,28 @@ export class LoginComponent implements OnInit {
   }
 
   signIn(){
-    console.log("signIn", this.signInModel);
-    this.router.navigate(['/dashboard']);
+    let bind = {
+      username: this.signInModel.username,
+      password: this.signInModel.password
+    };
+
+    this.accountService.login(bind)
+    .subscribe(data => {
+      this.accountService.setUsername(bind.username);
+      this.router.navigate(['/dashboard']);
+    });
   }
 
   register(){
-    console.log("register", this.registerModel);
+    let bind = {
+      username: this.registerModel.username,
+      email: this.registerModel.email,
+      password: this.registerModel.password
+    };
+
+    this.accountService.register(bind)
+    .subscribe(data => {
+      this.isSignInForm = true;
+    });
   }
 }

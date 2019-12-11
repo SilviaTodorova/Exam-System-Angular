@@ -31,13 +31,15 @@ import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { LoginComponent } from './component/login/login.component';
 import { HomeComponent } from './component/home/home.component';
 import { ExamComponent } from './component/exam/exam.component';
+import { TeachersService } from './services/teachers.service';
+import { AccountService } from './services/account.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
   wheelPropagation: true,
   minScrollbarLength: 20
-};   
+};
 
 @NgModule({
   declarations: [
@@ -58,7 +60,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     FormsModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),
-	  PerfectScrollbarModule,
+    PerfectScrollbarModule,
     NgbModule.forRoot(),
     RouterModule.forRoot(Approutes, { useHash: false })
   ],
@@ -67,11 +69,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       provide: LocationStrategy,
       useClass: PathLocationStrategy
     },
-	{
+    {
       provide: PERFECT_SCROLLBAR_CONFIG,
       useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-    }
+    },
+    AccountService,
+    TeachersService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

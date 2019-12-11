@@ -1,17 +1,15 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { AccountService } from 'src/app/services/account.service';
 
 @Component({
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements AfterViewInit {
-  subtitle: string;
+export class DashboardComponent implements OnInit {
+  constructor(private accountService: AccountService) { }
 
-  constructor() {
-    this.subtitle = 'This is some text within a card block.';
-   //
-   // alert("DASHBOARD");
+  ngOnInit(){
+    console.log(this.accountService.getUsername());
   }
 
-  ngAfterViewInit() {}
 }

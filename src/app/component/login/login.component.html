@@ -24,7 +24,7 @@
             required
             minlength="4"
             #username="ngModel"
-            [(ngModel)]="registerModel.username"
+            [(ngModel)]="signInModel.username"
             placeholder="Въведете потребителско име"
           />
           <span class="focus-input100"></span>
@@ -32,12 +32,13 @@
             *ngIf="username.invalid && (username.dirty || username.touched)"
             class="alert alert-danger"
           >
-            <div *ngIf="username?.errors.required">
-              Полето е задължително
-            </div>
-            <div *ngIf="username?.errors.minlength">
-              Потребителското име трябва да е с дължина поне 4 символа
-            </div>
+          <div *ngIf="username?.errors.required">
+            Полето е задължително
+          </div>
+
+          <div *ngIf="username?.errors.email">
+            Невалидено потребителско име
+          </div>
           </div>
         </div>
 
@@ -49,7 +50,7 @@
             name="password"
             required
             #password="ngModel"
-            [(ngModel)]="registerModel.password"
+            [(ngModel)]="signInModel.password"
             placeholder="Въведете парола"
           />
           <span class="focus-input100"></span>
