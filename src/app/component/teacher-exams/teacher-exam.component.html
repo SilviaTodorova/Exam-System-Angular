@@ -22,7 +22,7 @@
         </tr>
         <tr *ngFor="let exam of examList; let id = index">
           <td>
-            <span>{{ id }}</span>
+            <span>{{ id + 1 }}</span>
           </td>
           <td class="text-left">
             <span>{{ exam.title }}</span>
@@ -39,7 +39,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="previewExam(exam.intId)"
+                (click)="previewExam(exam.title)"
               >
                 <i
                   class="fa fa-eye fa-lg"
@@ -56,7 +56,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="editExam(exam.intId)"
+                (click)="editExam(exam.title)"
               >
                 <i
                   class="fa fa-pencil-square-o fa-lg ml-2"
@@ -73,7 +73,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="openModal(delete)"
+                (click)="openModal(delete, id)"
               >
                 <i
                   class="fa fa-trash fa-lg ml-2"
@@ -84,6 +84,11 @@
             </span>
           </td>
         </tr>
+        <tr *ngIf="!examList || examList.length == 0" >
+            <td colspan="4">
+                <span>Няма данни</span>
+              </td>
+          </tr>
       </table>
     </div>
   </div>
@@ -109,7 +114,7 @@
     <button
       type="button"
       class="btn btn-success"
-      (click)="modal.close('Close click')"
+      (click)="deleteExam(); modal.close('Close click')"
     >
       Потвърди
     </button>

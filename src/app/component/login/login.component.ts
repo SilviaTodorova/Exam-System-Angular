@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SignIn } from '../../models/login/sign-in';
 import { Register } from '../../models/login/register';
 import { AccountService } from 'src/app/services/account.service';
+import { NotifierService } from 'angular-notifier';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,7 @@ export class LoginComponent implements OnInit {
   registerModel: Register = new Register();
 
   constructor(private router: Router,
+              private notifier: NotifierService,
               private accountService: AccountService) { }
 
   ngOnInit() {
@@ -37,6 +39,13 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       this.accountService.setUsername(bind.username);
       this.router.navigate(['/dashboard']);
+    }, error => {
+      alert(error.error.message);
+        // this.notifier.notify(
+        //   "success",
+        //   "You are awesome! I mean it!",
+        //   "THAT_NOTIFICATION_ID"
+        // );
     });
   }
 
@@ -50,6 +59,13 @@ export class LoginComponent implements OnInit {
     this.accountService.register(bind)
     .subscribe(data => {
       this.isSignInForm = true;
+    }, error => {
+      alert(error.error.message);
+        // this.notifier.notify(
+        //   "success",
+        //   "You are awesome! I mean it!",
+        //   "THAT_NOTIFICATION_ID"
+        // );
     });
   }
 }

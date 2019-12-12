@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+
 import { Exam } from 'src/app/models/exam/exam';
 
-import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-ngbd-progressbar',
@@ -11,39 +13,50 @@ import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./teacher-exam.component.css'],
   providers: [NgbProgressbarConfig]
 })
-export class TeacherExamComponent {
-  examList: Array<Exam> = [
-      { intId: 1, title: 'XML технологии за семантичен Уеб', countQuestions: 30, timeLimit: 20, questions: null},
-      { intId: 2, title: 'Увод в софтуерното инженерство', countQuestions: 45, timeLimit: 20, questions: null},
-      { intId: 3, title: 'Анализ на софтуерните изисквания', countQuestions: 26, timeLimit: 20, questions: null},
-      { intId: 4, title: 'Софтуерни архитектури и разработка на софтуер', countQuestions: 26, timeLimit: 20, questions: null},
-      { intId: 5, title: 'Управление на качеството', countQuestions: 31, timeLimit: 20, questions: null},
-    ];
+export class TeacherExamComponent implements OnInit {
+  examList: Array<Exam> = [];
+  index: number = 0;
 
-    closeResult: string;
-
-    
-  constructor(private router: Router, private modalService: NgbModal) { }
+  constructor(private router: Router, 
+              private modalService: NgbModal,
+              private teacherService: TeachersService) { }
 
 
+  ngOnInit() {
+    this.loadExams();
+  }
 
-  addExam(){
+  addExam() {
     this.router.navigate(['/component/add-exam']);
   }
 
-  editExam(id: number){
-    this.router.navigate(['/component/edit-exam'], { queryParams: {id: id}});
+  editExam(title: number) {
+    this.router.navigate(['/component/edit-exam'], { 
+      queryParams: { title: title } 
+    });
   }
 
-  previewExam(id: number){
-    this.router.navigate(['/component/preview-exam'], { queryParams: {id: id}});
+  previewExam(title: string) {
+    console.log("ccc", title);
+    this.router.navigate(['/component/preview-exam'], { 
+     queryParams: { title: title } 
+    });
   }
 
-  deleteExam(id: number){
-    console.log("Modal");
+  openModal(content, index: number) {
+    this.index = index;
+    this.modalService.open(content, { centered: true });
   }
 
-  openModal(content3) {
-    this.modalService.open(content3, { centered: true });
+  deleteExam() {
+    // TODO: call service
+    this.examList.splice(this.index, 1);
+  }
+
+  //Serivces
+  loadExams(){
+    this.examList = [
+      { intId: 1, title: 'Feelings', countQuestions: 123, timeLimit: 0, questions: null }
+    ];
   }
 }

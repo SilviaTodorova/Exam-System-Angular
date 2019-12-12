@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { appResources } from 'src/environments/app.resources';
 import { map } from '../../../node_modules/rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AccountService } from './account.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -18,21 +19,31 @@ export class TeachersService {
   apiUrl = environment.apiUrl;
   teachersResource = appResources.teachersResource;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, 
+              private accountService: AccountService) { }
 
-  register(data: any) : Observable<any[]> {
+  createTest(data: any) : Observable<any> {
+    let username = "silvijati"; //this.accountService.getUsername();
     return this.http
-    .post(`${this.apiUrl}/${this.teachersResource}/register`, data, httpOptions)
+    .post(`${this.apiUrl}/${this.teachersResource}/tests?username=${username}`, data, httpOptions)
     .pipe(
-      map( el =><any[]> el) 
+      map( el => el) 
     );
   }
 
-  login(data: any) : Observable<any[]> {
+  getTest(data: any) : Observable<any> {
     return this.http
-    .post(`${this.apiUrl}/${this.teachersResource}/login`, data, httpOptions)
+    .get(`${this.apiUrl}/${this.teachersResource}/tests/${data}`)
     .pipe(
-      map( el =><any[]> el) 
+      map( el => el) 
+    );
+  }
+
+  createQuestionToTest(title: string, data: any) : Observable<any> {
+    return this.http
+    .post(`${this.apiUrl}/${this.teachersResource}/tests/${title}/questions`, data, httpOptions)
+    .pipe(
+      map( el => el) 
     );
   }
 

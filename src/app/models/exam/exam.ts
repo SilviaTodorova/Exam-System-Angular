@@ -14,7 +14,8 @@ export class Question {
 }
 
 export class Answer {
+    orderId: number;
     intId: number;
     title: string;
-    selected: boolean;
+    correct: boolean;
 }

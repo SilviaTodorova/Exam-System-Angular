@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Exam, Answer, Question } from 'src/app/models/exam/exam';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Exam, Question } from 'src/app/models/exam/exam';
+
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-preview-exam',
@@ -9,95 +12,55 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./preview-exam.component.css']
 })
 export class PreviewExamComponent implements OnInit {
-  id: number;
+  title: string;
+  orderId: number;
   questionsList: Question[] = [];
-  
-  constructor( private modalService: NgbModal,private route: ActivatedRoute) { }
+  model: Exam = new Exam();
+
+  constructor(private modalService: NgbModal,
+              private route: ActivatedRoute, 
+              private router: Router,
+              private teachersService: TeachersService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['data'] != undefined) {
-        this.id = params['data'].id;
-        console.log(this.id);
+      if (params['title'] != undefined) {
+        this.title = params['title'];
+        this.loadExam();
       }
     });
-
-    this.loadExam();
-
   }
-
-  model: Exam = new Exam();
-  answers: Answer[] = [];
-  questTitle: string;
-
-  editField: string;
-
 
   openModal(content, orderId) {
     this.modalService.open(content, { centered: true,size: 'lg' });
-
-    console.log(this.model.questions.filter(x=>x.answers)[0]);
-    this.answers = this.model.questions.filter(x=>x.orderId == orderId)[0].answers;
-    console.log("XX",this.model.questions.filter(x=>x.orderId == orderId)[0].title);
-    this.questTitle = this.model.questions.filter(x=>x.orderId == orderId)[0].title;
+    this.orderId = orderId;
   }
 
   //Service
   loadExam() {
-    this.model = {
-      intId: 1,
-      title: "XML технологии за семантичен Уеб",
-      countQuestions: 2,
-      timeLimit: 10,
-      questions: [
-        {
-          intId: 1,
-          orderId: 1,
-          title: "Параметричните единици (Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: "единствено в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "единствено в  на DTD",
-              selected: false
-            }
-          ]
-        },
-        {
-          intId: 2,
-          orderId: 2,
-          title: "(Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: " DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "222222222DTD",
-              selected: false
-            }
-          ]
-        }
-      ]
-    };
+    this.teachersService.getTest(this.title).subscribe(data => {
+      console.log("data", data);
+      this.model = data;
 
-    console.log(this.model);
+      let orderId: number = 1;
+      if(this.model.questions){
+        this.model.questions.map(x=>{
+          x.orderId = orderId++;
+
+          let ansOrderId = 1;
+          if(x.answers){
+            x.answers.map(ans=>ans.orderId = ansOrderId++);
+          }
+        });
+      }
+
+    }, error => {
+      if(error.error.message){
+        alert(error.error.message);
+      }
+      this.router.navigate(['/component/teacher-exam']);
+    });
+
   }
-
+    
 }

@@ -45,15 +45,15 @@ export class ExamComponent implements OnInit {
   selectAnswer(intId: number) {
     this.exam.questions[this.orderId - 1].answers.forEach(x => {
       if (x.intId == intId) {
-        x.selected = true;
+        x.correct = true;
       } else {
-        x.selected = false;
+        x.correct = false;
       }
     })
   }
 
   calculateClasses(orderId: number) {
-    let checkAnswered: boolean = this.exam.questions.filter(x=>x.orderId == orderId)[0].answers.some(x=>x.selected == true);
+    let checkAnswered: boolean = this.exam.questions.filter(x=>x.orderId == orderId)[0].answers.some(x=>x.correct == true);
     return {
       'btn-secondary': checkAnswered,
       'btn-outline-secondary': !checkAnswered,
@@ -83,19 +83,22 @@ export class ExamComponent implements OnInit {
           title: "Параметричните единици (Parameter Entities) са декларирани в DTD и се използват:",
           answers: [
             {
+              orderId: 1,
               intId: 1,
               title: "единствено в декларациите на DTD",
-              selected: false
+              correct: false
             },
             {
+              orderId: 2,
               intId: 2,
               title: " в декларациите на DTD",
-              selected: false
+              correct: false
             },
             {
+              orderId: 3,
               intId: 3,
               title: "единствено в  на DTD",
-              selected: false
+              correct: false
             }
           ]
         },
@@ -105,19 +108,22 @@ export class ExamComponent implements OnInit {
           title: "(Parameter Entities) са декларирани в DTD и се използват:",
           answers: [
             {
+              orderId: 1,
               intId: 1,
               title: " DTD",
-              selected: false
+              correct: false
             },
             {
+              orderId: 1,
               intId: 2,
               title: " в декларTD",
-              selected: false
+              correct: false
             },
             {
+              orderId: 2,
               intId: 3,
               title: "222222222DTD",
-              selected: false
+              correct: false
             }
           ]
         }

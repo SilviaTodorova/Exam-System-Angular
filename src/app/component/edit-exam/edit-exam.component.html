@@ -35,8 +35,8 @@
       disabled
       #countQuestions="ngModel"
       [(ngModel)]="model.countQuestions"
-      value="{{ model.questions.length }}"
-      placeholder="Въведете брой въпроси"
+      value="{{ model.questions ? model.questions.length : 0 }}"
+      placeholder="0"
     />
     <span class="focus-input100"></span>
     <div
@@ -85,16 +85,16 @@
           class="fa fa-plus-circle fa-4x"
           style="color: #218838"
           aria-hidden="true"
-          (click)="add()"
+          (click)="addQuestion()"
         ></i>
       </span>
       <table
         class="table table-bordered table-responsive-md table-striped text-center"
       >
         <tr>
-          <th class="text-center">№</th>
-          <th class="text-center">Въпрос</th>
-          <th class="text-center">Действия</th>
+          <th class="text-center" width="10%">№</th>
+          <th class="text-center" width="70%">Въпрос</th>
+          <th class="text-center" width="20%">Действия</th>
         </tr>
         <tr *ngFor="let question of model.questions; let id = index">
           <td>
@@ -103,15 +103,13 @@
           <td class="text-left">
             <span
               contenteditable="true"
-              (keyup)="changeValue(id, 'title', $event)"
-              (blur)="updateList(id, 'title', $event)"
+              (blur)="changeValueQuestionTitle(question.orderId, $event)"
               >{{ question.title }}</span
             >
           </td>
 
           <td>
             <span class="table-remove">
-              <!-- <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Remove</button> -->
               <span class="table-remove">
                 <button
                   type="button"
@@ -137,7 +135,7 @@
                   rounded="true"
                   size="sm"
                   class="my-0"
-                  (click)="remove(id)"
+                  (click)="removeQuestion(id)"
                 >
                   <i
                     class="fa fa-trash fa-lg ml-2"
@@ -149,6 +147,11 @@
             </span>
           </td>
         </tr>
+        <tr *ngIf="!(model.questions && model.questions.length > 0)">
+          <td colspan="3">
+            Няма данни
+          </td>
+        </tr>
       </table>
     </div>
   </div>
@@ -156,19 +159,20 @@
 
 <!------------------------------- Save --------------------------------->
 
-<button class="btn btn-block btn-success text-white ml-3" (click)="save()">
-  Запиши
-</button>
-
-<button class="btn btn-block btn-success text-white ml-3" [routerLink]="['/component/teacher-exam']">
-  Назад
-</button>
+<div class="pull-right" style="padding: 1.25em">
+  <button
+    class="btn btn-block btn-danger text-white ml-3"
+    [routerLink]="['/component/teacher-exam']"
+  >
+    Назад
+  </button>
+</div>
 
 <!------------------------------- Modal --------------------------------->
 
 <ng-template #preview let-modal>
   <div class="modal-header">
-    <h4 class="modal-title">{{questTitle}}</h4>
+    <h4 class="modal-title">{{ model.questions[orderId - 1].title }}</h4>
     <button
       type="button"
       class="close"
@@ -194,46 +198,74 @@
         class="table table-bordered table-responsive-md table-striped text-center"
       >
         <tr>
-          <th class="text-center">№</th>
-          <th class="text-center">Отговор</th>
-          <th class="text-center">Правилен</th>
-          <th class="text-center">Действия</th>
+          <th class="text-center" width="10%">№</th>
+          <th class="text-center" width="70%">Отговор</th>
+          <th class="text-center" width="10%">Правилен</th>
+          <th class="text-center" width="10%">Действия</th>
         </tr>
-        <tr *ngFor="let answer of answers; let id = index">
-          <td>
-            <span>{{ answer.intId }}</span>
-          </td>
-          <td class="text-left">
-            <span
-              contenteditable="true"
-              (keyup)="changeValue(id, 'title', $event)"
-              (blur)="updateList(id, 'title', $event)"
-              >{{ answer.title }}</span
-            >
-          </td>
-          <td class="text-center">
-            <input type="checkbox" name="answers" [ngModel]="answer.selected" (change)="selectAnswer(answer.intId)"/>
-          </td>
-          <td >
-            <span class="table-remove">
+        <ng-template
+          [ngIf]="
+            model.questions[orderId - 1].answers &&
+            model.questions[orderId - 1].answers.length > 0
+          "
+        >
+          <tr
+            *ngFor="
+              let answer of model.questions[orderId - 1].answers;
+              let id = index
+            "
+          >
+            <td>
+              <span>{{ answer.orderId }}</span>
+            </td>
+            <td class="text-left">
+              <span
+                contenteditable="true"
+                (blur)="changeValueAnswerTitle(answer.orderId, $event)"
+                >{{ answer.title }}</span
+              >
+            </td>
+            <td class="text-center">
+              <input
+                type="checkbox"
+                name="answers"
+                [ngModel]="answer.correct"
+                (change)="selectAnswer(answer.orderId)"
+              />
+            </td>
+            <td>
               <span class="table-remove">
-                <button
-                  type="button"
-                  mdbBtn
-                  color="danger"
-                  rounded="true"
-                  size="sm"
-                  class="my-0"
-                  (click)="removeAnswer(answer.intId)"
-                >
-                  <i
-                    class="fa fa-trash fa-lg ml-2"
-                    style="color: #F62D51"
-                    aria-hidden="true"
-                  ></i>
-                </button>
+                <span class="table-remove">
+                  <button
+                    type="button"
+                    mdbBtn
+                    color="danger"
+                    rounded="true"
+                    size="sm"
+                    class="my-0"
+                    (click)="removeAnswer(answer.orderId)"
+                  >
+                    <i
+                      class="fa fa-trash fa-lg ml-2"
+                      style="color: #F62D51"
+                      aria-hidden="true"
+                    ></i>
+                  </button>
+                </span>
               </span>
-            </span>
+            </td>
+          </tr>
+        </ng-template>
+        <tr
+          *ngIf="
+            !(
+              model.questions[orderId - 1].answers &&
+              model.questions[orderId - 1].answers.length > 0
+            )
+          "
+        >
+          <td colspan="4">
+            Няма данни
           </td>
         </tr>
       </table>
@@ -248,11 +280,11 @@
       Затвори
     </button>
     <button
-    type="button"
-    class="btn btn-success"
-    (click)="modal.close('Close click')"
-  >
-    Запиши
-  </button>
+      type="button"
+      class="btn btn-success"
+      (click)="saveQuestion(); modal.close('Close click')"
+    >
+      Запищи
+    </button>
   </div>
 </ng-template>

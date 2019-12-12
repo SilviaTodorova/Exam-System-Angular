@@ -33,12 +33,55 @@ import { HomeComponent } from './component/home/home.component';
 import { ExamComponent } from './component/exam/exam.component';
 import { TeachersService } from './services/teachers.service';
 import { AccountService } from './services/account.service';
+import { NotifierOptions } from 'angular-notifier';
+import { NotifierModule } from 'angular-notifier';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelSpeed: 1,
   wheelPropagation: true,
   minScrollbarLength: 20
+};
+
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'right',
+			distance: 12
+		},
+		vertical: {
+			position: 'top',
+			distance: 12,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
 };
 
 @NgModule({
@@ -57,6 +100,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
+    NotifierModule.withConfig(customNotifierOptions),
     FormsModule,
     HttpClientModule,
     MDBBootstrapModule.forRoot(),

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Exam, Question, Answer } from 'src/app/models/exam/exam';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeachersService } from 'src/app/services/teachers.service';
 
 @Component({
   selector: 'app-edit-exam',
@@ -10,167 +11,172 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
 })
 
 export class EditExamComponent implements OnInit {
-  id: number;
-  questionsList: Question[] = [];
-  
-  constructor( private modalService: NgbModal,private route: ActivatedRoute) { }
+  questTitle: string = "";
+  model: Exam = new Exam();
+  orderId: number = 0;
+
+  constructor(private modalService: NgbModal,
+    private route: ActivatedRoute,
+    private router: Router,
+    private teachersService: TeachersService) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['data'] != undefined) {
-        this.id = params['data'].id;
-        console.log(this.id);
+      if (params['title'] != undefined) {
+        this.questTitle = params['title'];
+        this.loadExam();
       }
     });
-
-    this.loadExam();
-
   }
 
-  model: Exam = new Exam();
-  answers: Answer[] = [];
-  questTitle: string;
+  // Questions part
+  addQuestion() {
+    let max = 0;
+    if (this.model.questions && this.model.questions.length > 0) {
+      let orderIds = this.model.questions.map(x => x.orderId).sort();
+      max = orderIds[orderIds.length - 1];
+    } else {
+      this.model.questions = [];
+    }
 
-  editField: string;
+    let newQuestion: Question = new Question();
+    newQuestion.title = "Въведете въпрос";
+    newQuestion.orderId = max + 1;
 
-  // awaitingPersonList: Array<any> = [
-   
-  // ];
-
-  updateList(id: number, property: string, event: any) {
-    const editField = event.target.textContent;
-    this.model.questions[id][property] = editField;
+    this.model.questions.push(newQuestion);
   }
 
-  remove(id: any) {
-   // this.awaitingPersonList.push(this.model.questions[id]);
+  changeValueQuestionTitle(orderId: number, event: any) {
+    if (this.model.questions) {
+      this.model.questions = this.model.questions.map(x => {
+        let tmp: Question = new Question();
+        tmp.orderId = x.orderId;
+        tmp.answers = x.answers;
+        tmp.intId = x.intId;
+
+        if (x.orderId == orderId) {
+          tmp.title = event.target.textContent;
+        } else {
+          tmp.title = x.title;
+        }
+
+        return tmp;
+      })
+    }
+  }
+
+  //TODO:
+  removeQuestion(id: any) {
     this.model.questions.splice(id, 1);
   }
 
-  removeAnswer(id: any) {
-    // this.awaitingPersonList.push(this.model.questions[id]);
-     this.answers.splice(id, 1);
-   }
+  // Answers part
+  openModal(content, orderId) {
+    this.modalService.open(content, { centered: true, size: 'lg' });
+    this.orderId = orderId;
 
-  add() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
+    let orderAnsId = 1;
+    if (!this.model.questions[orderId - 1].answers) {
+      this.model.questions[orderId - 1].answers = [];
+    }
 
-    let orderIds = this.model.questions.map(x=>x.orderId).sort();
-    let max = orderIds[orderIds.length-1];
-    let newQuestion: Question = new Question();
-    newQuestion.title = "xxx";
-    newQuestion.orderId = max + 1;
-    
-    this.model.questions.push(newQuestion);
-   // this.awaitingPersonList.splice(0, 1);
-
+    this.model.questions[orderId - 1].answers.map(x => x.orderId = orderAnsId++);
   }
 
   addAnswer() {
-    // if (this.awaitingPersonList.length > 0) {
-    //   const person = this.awaitingPersonList[0];
-    //   this.model.questions.push(person);
-    //   this.awaitingPersonList.splice(0, 1);
-    // }
+    let max = 0;
+    if (this.model.questions[this.orderId - 1].answers && this.model.questions[this.orderId - 1].answers.length > 0) {
+      let orderIds = this.model.questions[this.orderId - 1].answers.map(x => x.orderId).sort();
+      max = orderIds[orderIds.length - 1];
+    } else {
+      this.model.questions[this.orderId - 1].answers = [];
+    }
 
-    let ids = this.answers.map(x=>x.intId).sort();
-    let max = ids[ids.length-1];
     let newAnswer: Answer = new Answer();
-    newAnswer.title = "xxx";
-    newAnswer.intId = max + 1;
-    
-    this.answers.push(newAnswer);
-   // this.awaitingPersonList.splice(0, 1);
+    newAnswer.title = "Въведете въпрос";
+    console.log("max", max);
+    newAnswer.orderId = (max) ? max + 1 : 1;
 
+    console.log(newAnswer);
+    this.model.questions[this.orderId - 1].answers.push(newAnswer);
   }
 
-  changeValue(id: number, property: string, event: any) {
-    this.editField = event.target.textContent;
-  }
-
-  openModal(content, orderId) {
-    this.modalService.open(content, { centered: true,size: 'lg' });
-
-    console.log(this.model.questions.filter(x=>x.answers)[0]);
-    this.answers = this.model.questions.filter(x=>x.orderId == orderId)[0].answers;
-    console.log("XX",this.model.questions.filter(x=>x.orderId == orderId)[0].title);
-    this.questTitle = this.model.questions.filter(x=>x.orderId == orderId)[0].title;
-  }
-
-  selectAnswer(intId: number) {
-    this.answers.forEach(x => {
-      if (x.intId == intId) {
-        x.selected = true;
+  selectAnswer(orderId: number) {
+    this.model.questions[this.orderId - 1].answers.map(x => {
+      if (x.orderId == orderId) {
+        x.correct = true;
       } else {
-        x.selected = false;
+        x.correct = false;
       }
     })
   }
 
-  //Service
-  loadExam() {
-    this.model = {
-      intId: 1,
-      title: "XML технологии за семантичен Уеб",
-      countQuestions: 2,
-      timeLimit: 10,
-      questions: [
-        {
-          intId: 1,
-          orderId: 1,
-          title: "Параметричните единици (Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: "единствено в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "единствено в  на DTD",
-              selected: false
-            }
-          ]
-        },
-        {
-          intId: 2,
-          orderId: 2,
-          title: "(Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: " DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "222222222DTD",
-              selected: false
-            }
-          ]
-        }
-      ]
-    };
+  changeValueAnswerTitle(orderId: number, event: any) {
+    let order = 1;
+    if (this.model.questions[this.orderId - 1].answers) {
+      this.model.questions[this.orderId - 1].answers = this.model.questions[this.orderId - 1].answers.map(x => {
+        let tmp: Answer = new Answer();
+        tmp.intId = x.intId;
+        tmp.correct = x.correct;
+        tmp.orderId = order++;
 
-    console.log(this.model);
+        console.log(orderId, x.orderId);
+        if (x.orderId == orderId) {
+          tmp.title = event.target.textContent;
+        } else {
+          tmp.title = x.title;
+        }
+
+        return tmp;
+      })
+    }
   }
 
-  save(){
-    console.log(this.model);
+  //TODO:
+  removeAnswer(id: any) {
+    this.model.questions[this.orderId - 1].answers.splice(id - 1, 1);
+  }
+
+  //Service
+  loadExam() {
+    this.teachersService.getTest(this.questTitle).subscribe(data => {
+      this.model = data;
+
+      let orderId: number = 1;
+      if (this.model.questions) {
+        this.model.questions.map(x => x.orderId = orderId++);
+      }
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      }
+    });
+  }
+
+  saveQuestion() {
+    let question: Question = this.model.questions[this.orderId - 1];
+    let answers = question.answers.map(x => {
+      let tmp = {
+        title: x.title,
+        correct: x.correct
+      };
+
+      return tmp;
+    });
+    let bind = {
+      title: question.title,
+      answers: answers
+    };
+
+    this.teachersService.createQuestionToTest(this.questTitle, bind).subscribe(data => {
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      }else{
+        alert("Error");
+      }
+      this.router.navigate(['/component/teacher-exam']);
+    });
   }
 
 }

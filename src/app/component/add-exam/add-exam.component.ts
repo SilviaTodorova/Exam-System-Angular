@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Exam, Question, Answer } from 'src/app/models/exam/exam';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TeachersService } from 'src/app/services/teachers.service';
+import { AccountService } from 'src/app/services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-exam',
@@ -11,11 +14,15 @@ export class AddExamComponent implements OnInit {
   model: Exam = new Exam();
   answers: Answer[] = [];
   questTitle: string;
+  username: string;
 
-  constructor(private modalService: NgbModal,) { }
+  constructor(private modalService: NgbModal,
+              private router: Router, 
+              private accountService: AccountService,
+              private teachersService: TeachersService) { }
 
   ngOnInit() {
-    this.loadExam();
+    this.username = "silvijati"; //this.accountService.getUsername();
   }
 
   editField: string;
@@ -33,11 +40,17 @@ export class AddExamComponent implements OnInit {
      this.answers.splice(id, 1);
    }
 
-  add() {
-    let orderIds = this.model.questions.map(x=>x.orderId).sort();
-    let max = orderIds[orderIds.length-1];
+  addQuestion() {
+    let max = 0;
+    if(this.model.questions) {
+      let orderIds =  this.model.questions.map(x=>x.orderId).sort();
+      max = orderIds[orderIds.length-1];
+    }else{
+      this.model.questions = [];
+    }
+   
     let newQuestion: Question = new Question();
-    newQuestion.title = "xxx";
+    newQuestion.title = "Въведете въпрос";
     newQuestion.orderId = max + 1;
     
     this.model.questions.push(newQuestion);
@@ -70,72 +83,30 @@ export class AddExamComponent implements OnInit {
   selectAnswer(intId: number) {
     this.answers.forEach(x => {
       if (x.intId == intId) {
-        x.selected = true;
+        x.correct = true;
       } else {
-        x.selected = false;
+        x.correct = false;
       }
     })
   }
 
   //Service
-  loadExam() {
-    this.model = {
-      intId: 1,
-      title: "XML технологии за семантичен Уеб",
-      countQuestions: 2,
-      timeLimit: 10,
-      questions: [
-        {
-          intId: 1,
-          orderId: 1,
-          title: "Параметричните единици (Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: "единствено в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларациите на DTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "единствено в  на DTD",
-              selected: false
-            }
-          ]
-        },
-        {
-          intId: 2,
-          orderId: 2,
-          title: "(Parameter Entities) са декларирани в DTD и се използват:",
-          answers: [
-            {
-              intId: 1,
-              title: " DTD",
-              selected: false
-            },
-            {
-              intId: 2,
-              title: " в декларTD",
-              selected: false
-            },
-            {
-              intId: 3,
-              title: "222222222DTD",
-              selected: false
-            }
-          ]
-        }
-      ]
+  createTest(){
+    let bind = {
+      title: this.model.title,
+      countQuestions: 0,
+      timeLimit: this.model.timeLimit
     };
 
-    console.log(this.model);
-  }
-
-  save(){
-    console.log(this.model);
+    console.log("bind", bind);
+    this.teachersService.createTest(bind).subscribe(data => {
+      alert(data.message);
+      this.router.navigate(['/component/teacher-exam']);
+    }, error => {
+      if(error.error.message){
+        alert(error.error.message);
+      }
+      
+    });
   }
 }
