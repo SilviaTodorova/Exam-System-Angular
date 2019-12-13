@@ -18,6 +18,7 @@
           <th class="text-center">№</th>
           <th class="text-center">Име</th>
           <th class="text-center">Брой въпроси</th>
+          <th class="text-center">Време (минути)</th>
           <th class="text-center">Действия</th>
         </tr>
         <tr *ngFor="let exam of examList; let id = index">
@@ -29,6 +30,9 @@
           </td>
           <td>
             <span>{{ exam.countQuestions }}</span>
+          </td>
+          <td>
+            <span>{{ exam.timeLimit }}</span>
           </td>
           <td>
             <span class="table-remove">

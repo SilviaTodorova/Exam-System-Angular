@@ -39,6 +39,15 @@ export class TeachersService {
     );
   }
 
+  getAllTestByOwner() : Observable<any> {
+    let username = "silvijati"; //this.accountService.getUsername();
+    return this.http
+    .get(`${this.apiUrl}/${this.teachersResource}/${username}/tests`)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
   createQuestionToTest(title: string, data: any) : Observable<any> {
     return this.http
     .post(`${this.apiUrl}/${this.teachersResource}/tests/${title}/questions`, data, httpOptions)

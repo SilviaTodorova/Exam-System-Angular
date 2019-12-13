@@ -19,7 +19,7 @@ export class TeacherExamComponent implements OnInit {
 
   constructor(private router: Router, 
               private modalService: NgbModal,
-              private teacherService: TeachersService) { }
+              private teachersService: TeachersService) { }
 
 
   ngOnInit() {
@@ -55,8 +55,17 @@ export class TeacherExamComponent implements OnInit {
 
   //Serivces
   loadExams(){
-    this.examList = [
-      { intId: 1, title: 'Feelings', countQuestions: 123, timeLimit: 0, questions: null }
-    ];
+    // this.examList = [
+    //   { intId: 1, title: 'Feelings', countQuestions: 123, timeLimit: 0, questions: null }
+    // ];
+    this.teachersService.getAllTestByOwner().subscribe(data => {
+      this.examList = data;
+    }, error => {
+      if(error.error.message){
+        alert(error.error.message);
+      }
+      this.router.navigate(['/component/teacher-exam']);
+    });
+
   }
 }
