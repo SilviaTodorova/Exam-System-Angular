@@ -10,23 +10,23 @@ declare var $: any;
   templateUrl: './sidebar.component.html'
 })
 export class SidebarComponent implements OnInit {
-  showMenu = '';
-  showSubMenu = '';
   public sidebarnavItems: any[];
-  // this is for the open close
-  addExpandClass(element: any) {
-    if (element === this.showMenu) {
-      this.showMenu = '0';
-    } else {
-      this.showMenu = element;
+
+  constructor(
+    private router: Router
+  ) {}
+
+  addExpandClass(sidebarnavItem: any) {
+    if(sidebarnavItem.class === ''){
+      if(sidebarnavItem.title == 'Изход'){
+        localStorage.removeItem("username");
+      }
+
+      this.router.navigate([sidebarnavItem.path]);
     }
   }
 
-  constructor(
-    private modalService: NgbModal,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+
 
   // End open close
   ngOnInit() {

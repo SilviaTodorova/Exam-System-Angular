@@ -19,8 +19,6 @@ export class AccountService {
   apiUrl = environment.apiUrl;
   teachersResource = appResources.teachersResource;
 
-  private currentUsername: string;
-
   constructor(private http: HttpClient) {}
 
   register(data: any) : Observable<any[]> {
@@ -40,10 +38,13 @@ export class AccountService {
   }
 
   setUsername(username: string){
-    this.currentUsername = username;
+    if(username){
+      localStorage.setItem('username', username);
+    }
+    
   }
 
   getUsername(){
-    return this.currentUsername;
+    return localStorage.getItem('username');
   }
 }

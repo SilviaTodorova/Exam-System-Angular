@@ -23,7 +23,7 @@ export class TeachersService {
               private accountService: AccountService) { }
 
   createTest(data: any) : Observable<any> {
-    let username = "silvijati"; //this.accountService.getUsername();
+    let username = this.accountService.getUsername();
     return this.http
     .post(`${this.apiUrl}/${this.teachersResource}/tests?username=${username}`, data, httpOptions)
     .pipe(
@@ -40,7 +40,7 @@ export class TeachersService {
   }
 
   getAllTestByOwner() : Observable<any> {
-    let username = "silvijati"; //this.accountService.getUsername();
+    let username = this.accountService.getUsername();
     return this.http
     .get(`${this.apiUrl}/${this.teachersResource}/${username}/tests`)
     .pipe(

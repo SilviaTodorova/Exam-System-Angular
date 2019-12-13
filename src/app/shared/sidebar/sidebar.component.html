@@ -1,15 +1,13 @@
 <nav class="sidebar-nav">
     <ul id="sidebarnav">
 		<li class="nav-devider"></li>
-        <li class="sidebar-item" [class.active]="showMenu === sidebarnavItem.title" *ngFor="let sidebarnavItem of sidebarnavItems"
-            [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
+        <li class="sidebar-item" *ngFor="let sidebarnavItem of sidebarnavItems">
             <div class="nav-small-cap" *ngIf="sidebarnavItem.extralink === true">{{sidebarnavItem.title}}</div>
-            <a class="sidebar-link waves-effect waves-dark" [routerLink]="sidebarnavItem.class === '' ? [sidebarnavItem.path] : null"
-                [ngClass]="[sidebarnavItem.class]" *ngIf="!sidebarnavItem.extralink;" (click)="addExpandClass(sidebarnavItem.title)"
-                [routerLinkActive]="sidebarnavItem.submenu.length != 0 ? '' : 'active'">
-                <i [ngClass]="[sidebarnavItem.icon]"></i>
-                <span class="hide-menu">{{sidebarnavItem.title}}</span>
-            </a>
+            <a class="sidebar-link waves-effect waves-dark"
+            [ngClass]="[sidebarnavItem.class]" *ngIf="!sidebarnavItem.extralink;" (click)="addExpandClass(sidebarnavItem)">
+            <i [ngClass]="[sidebarnavItem.icon]"></i>
+            <span class="hide-menu">{{sidebarnavItem.title}}</span>
+        </a>
         </li>
     </ul>
 </nav> 

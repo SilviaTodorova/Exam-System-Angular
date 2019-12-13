@@ -22,7 +22,7 @@ export class AddExamComponent implements OnInit {
               private teachersService: TeachersService) { }
 
   ngOnInit() {
-    this.username = "silvijati"; //this.accountService.getUsername();
+    this.username = this.accountService.getUsername();
   }
 
   editField: string;
