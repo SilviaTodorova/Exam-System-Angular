@@ -42,9 +42,9 @@ export class ExamComponent implements OnInit {
     this.orderId = (this.orderId > 1) ? this.orderId - 1 : this.orderId;
   }
 
-  selectAnswer(intId: number) {
+  selectAnswer(id: number) {
     this.exam.questions[this.orderId - 1].answers.forEach(x => {
-      if (x.intId == intId) {
+      if (x.id == id) {
         x.correct = true;
       } else {
         x.correct = false;
@@ -72,56 +72,56 @@ export class ExamComponent implements OnInit {
   //Service
   loadExam() {
     this.exam = {
-      intId: 1,
+      id: 1,
       title: "XML технологии за семантичен Уеб",
       countQuestions: 2,
       timeLimit: 10,
       questions: [
         {
-          intId: 1,
+          id: 1,
           orderId: 1,
           title: "Параметричните единици (Parameter Entities) са декларирани в DTD и се използват:",
           answers: [
             {
               orderId: 1,
-              intId: 1,
+              id: 1,
               title: "единствено в декларациите на DTD",
               correct: false
             },
             {
               orderId: 2,
-              intId: 2,
+              id: 2,
               title: " в декларациите на DTD",
               correct: false
             },
             {
               orderId: 3,
-              intId: 3,
+              id: 3,
               title: "единствено в  на DTD",
               correct: false
             }
           ]
         },
         {
-          intId: 2,
+          id: 2,
           orderId: 2,
           title: "(Parameter Entities) са декларирани в DTD и се използват:",
           answers: [
             {
               orderId: 1,
-              intId: 1,
+              id: 1,
               title: " DTD",
               correct: false
             },
             {
               orderId: 1,
-              intId: 2,
+              id: 2,
               title: " в декларTD",
               correct: false
             },
             {
               orderId: 2,
-              intId: 3,
+              id: 3,
               title: "222222222DTD",
               correct: false
             }

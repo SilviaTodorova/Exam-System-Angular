@@ -55,9 +55,6 @@ export class TeacherExamComponent implements OnInit {
 
   //Serivces
   loadExams(){
-    // this.examList = [
-    //   { intId: 1, title: 'Feelings', countQuestions: 123, timeLimit: 0, questions: null }
-    // ];
     this.teachersService.getAllTestByOwner().subscribe(data => {
       this.examList = data;
     }, error => {

@@ -57,11 +57,11 @@ export class AddExamComponent implements OnInit {
   }
 
   addAnswer() {
-    let ids = this.answers.map(x=>x.intId).sort();
+    let ids = this.answers.map(x=>x.id).sort();
     let max = ids[ids.length-1];
     let newAnswer: Answer = new Answer();
     newAnswer.title = "xxx";
-    newAnswer.intId = max + 1;
+    newAnswer.id = max + 1;
     
     this.answers.push(newAnswer);
 
@@ -80,9 +80,9 @@ export class AddExamComponent implements OnInit {
     this.questTitle = this.model.questions.filter(x=>x.orderId == orderId)[0].title;
   }
 
-  selectAnswer(intId: number) {
+  selectAnswer(id: number) {
     this.answers.forEach(x => {
-      if (x.intId == intId) {
+      if (x.id == id) {
         x.correct = true;
       } else {
         x.correct = false;
