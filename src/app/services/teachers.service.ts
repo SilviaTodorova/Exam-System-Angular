@@ -56,4 +56,12 @@ export class TeachersService {
     );
   }
 
+  removeQuestion(data: any){
+    return this.http
+    .delete(`${this.apiUrl}/${this.teachersResource}/questions/${data}`, httpOptions)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
 }

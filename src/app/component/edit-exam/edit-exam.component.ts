@@ -52,7 +52,7 @@ export class EditExamComponent implements OnInit {
         let tmp: Question = new Question();
         tmp.orderId = x.orderId;
         tmp.answers = x.answers;
-        tmp.intId = x.intId;
+        tmp.id = x.id;
 
         if (x.orderId == orderId) {
           tmp.title = event.target.textContent;
@@ -63,11 +63,6 @@ export class EditExamComponent implements OnInit {
         return tmp;
       })
     }
-  }
-
-  //TODO:
-  removeQuestion(id: any) {
-    this.model.questions.splice(id, 1);
   }
 
   // Answers part
@@ -116,7 +111,7 @@ export class EditExamComponent implements OnInit {
     if (this.model.questions[this.orderId - 1].answers) {
       this.model.questions[this.orderId - 1].answers = this.model.questions[this.orderId - 1].answers.map(x => {
         let tmp: Answer = new Answer();
-        tmp.intId = x.intId;
+        tmp.id = x.id;
         tmp.correct = x.correct;
         tmp.orderId = order++;
 
@@ -163,12 +158,14 @@ export class EditExamComponent implements OnInit {
 
       return tmp;
     });
+
     let bind = {
       title: question.title,
       answers: answers
     };
 
     this.teachersService.createQuestionToTest(this.questTitle, bind).subscribe(data => {
+      this.loadExam();
     }, error => {
       if (error.error.message) {
         alert(error.error.message);
@@ -179,4 +176,22 @@ export class EditExamComponent implements OnInit {
     });
   }
 
+    //TODO:
+    removeQuestion(id: any) {
+      // this.model.questions.splice(id, 1);
+  
+      console.log(this.model);
+      let questionId = this.model.questions[id].id;
+      console.log(questionId);
+      this.teachersService.removeQuestion(questionId).subscribe(data => {
+        this.loadExam();
+      }, error => {
+        if (error.error.message) {
+          alert(error.error.message);
+        }else{
+          alert("Error");
+        }
+        this.router.navigate(['/component/teacher-exam']);
+      });
+    }
 }

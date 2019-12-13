@@ -1,5 +1,5 @@
 export class Exam {
-    intId: number;
+    id: number;
     title: string;
     countQuestions: number;
     timeLimit: number;
@@ -7,7 +7,7 @@ export class Exam {
 }
 
 export class Question {
-    intId: number;
+    id: number;
     orderId: number;
     title: string;
     answers: Answer[];
@@ -15,7 +15,7 @@ export class Question {
 
 export class Answer {
     orderId: number;
-    intId: number;
+    id: number;
     title: string;
     correct: boolean;
 }
