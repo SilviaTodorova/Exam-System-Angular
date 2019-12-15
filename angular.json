@@ -23,7 +23,7 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/style.css",
+                            "src/styles.css",
                             "src/assets/scss/style.scss",
                             "node_modules/angular-bootstrap-md/assets/scss/bootstrap/bootstrap.scss",
                             "node_modules/angular-bootstrap-md/assets/scss/mdb.scss",

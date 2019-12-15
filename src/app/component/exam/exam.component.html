@@ -30,7 +30,7 @@
           <button
             class="btn btn-block btn-info-custom text-white ml-3"
             [disabled]="examCode && examCode.length > 0 ? false : true"
-            (click)="examCode && examCode.length ? startExam() : false"
+            (click)="examCode && examCode.length ? startExam(timeLeft) : false"
           >
             Начало
           </button>
@@ -127,8 +127,8 @@
                 <div class="card-header bg-success text-white">
                   Информация
                 </div>
-                <div class="card-body text-center">
-                  <h1>1 ЧАС 30 МИНУТИ 10 СЕК</h1>
+                <div class="card-body text-center" >
+                  <h1>{{hours}} ЧАС {{minutes}} МИНУТИ {{seconds}} СЕК</h1>                  
                 </div>
               </div>
     
@@ -185,6 +185,32 @@
       type="button"
       class="btn btn-danger"
       (click)="modal.close('Close click')"
+    >
+      Затвори
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #timeLeft let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Времето приключи</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h6>Резултатът ще получите на посочения от вас имейл.</h6>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.close('Close click'); finishExam()"
     >
       Затвори
     </button>

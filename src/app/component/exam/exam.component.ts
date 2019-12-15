@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Exam, Question, Answer } from '../../models/exam/exam';
-import { Title } from '@angular/platform-browser';
-
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Exam } from '../../models/exam/exam';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { StudentsService } from 'src/app/services/students.service';
 
@@ -18,6 +16,13 @@ export class ExamComponent implements OnInit {
   exam: Exam;
   orderId: number;
 
+  timeLeft: number = 0;
+  interval;
+  hours: number;
+  minutes: number;
+  seconds: number;
+  content: any;
+
   constructor(private modalService: NgbModal,
     private studentsService: StudentsService,
     private router: Router) { }
@@ -25,6 +30,25 @@ export class ExamComponent implements OnInit {
 
   ngOnInit() {
     this.orderId = 1;
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+      } else {
+        this.modalService.open(this.content, { centered: true });
+        clearInterval(this.interval);
+      }
+      this.timeConvert(this.timeLeft);
+    }, 1000)
+  }
+
+  timeConvert(totalSeconds) {
+    this.hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    this.minutes = Math.floor(totalSeconds / 60);
+    this.seconds = totalSeconds % 60;
   }
 
   finishExam() {
@@ -62,18 +86,23 @@ export class ExamComponent implements OnInit {
     this.orderId = orderId;
   }
 
-  openModal(content3) {
-    this.modalService.open(content3, { centered: true });
+  openModal(content) {
+    this.modalService.open(content, { centered: true });
   }
 
   //Service
-  startExam() {
+  startExam(content) {
+    this.content = content;
+
     this.studentsService.getTest(this.examCode).subscribe(data => {
       if (data && data.questions && data.questions.length > 0) {
         this.isExamStarted = true;
         let orderId = 1;
         this.exam = data;
         this.exam.questions.map(x => x.orderId = orderId++);
+        this.timeLeft = this.exam.timeLimit * 60;
+        this.timeConvert(this.timeLeft);
+        this.startTimer();
       } else {
         alert("Empty test");
       }
