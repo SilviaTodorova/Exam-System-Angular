@@ -94,7 +94,7 @@ export class AddExamComponent implements OnInit {
   createTest(){
     let bind = {
       title: this.model.title,
-      countQuestions: 0,
+      countQuestions: this.model.countQuestions,
       timeLimit: this.model.timeLimit
     };
 
@@ -105,6 +105,8 @@ export class AddExamComponent implements OnInit {
     }, error => {
       if(error.error.message){
         alert(error.error.message);
+      }else{
+        alert("Server error");
       }
       
     });

@@ -22,15 +22,6 @@ export class TeachersService {
   constructor(private http: HttpClient, 
               private accountService: AccountService) { }
 
-  createTest(data: any) : Observable<any> {
-    let username = this.accountService.getUsername();
-    return this.http
-    .post(`${this.apiUrl}/${this.teachersResource}/tests?username=${username}`, data, httpOptions)
-    .pipe(
-      map( el => el) 
-    );
-  }
-
   getTest(data: any) : Observable<any> {
     return this.http
     .get(`${this.apiUrl}/${this.teachersResource}/tests/${data}`)
@@ -48,6 +39,31 @@ export class TeachersService {
     );
   }
 
+  createTest(data: any) : Observable<any> {
+    let username = this.accountService.getUsername();
+    return this.http
+    .post(`${this.apiUrl}/${this.teachersResource}/tests?username=${username}`, data, httpOptions)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
+  updateTest(title: string, data: any) : Observable<any> {
+    return this.http
+    .put(`${this.apiUrl}/${this.teachersResource}/tests/${title}`, data, httpOptions)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
+  deleteTest(data: any) : Observable<any> {
+    return this.http
+    .delete(`${this.apiUrl}/${this.teachersResource}/tests/${data}`)
+    .pipe(
+      map( el => el) 
+    );
+  }
+  
   createQuestionToTest(title: string, data: any) : Observable<any> {
     return this.http
     .post(`${this.apiUrl}/${this.teachersResource}/tests/${title}/questions`, data, httpOptions)
@@ -58,7 +74,23 @@ export class TeachersService {
 
   removeQuestion(data: any){
     return this.http
-    .delete(`${this.apiUrl}/${this.teachersResource}/questions/${data}`, httpOptions)
+    .delete(`${this.apiUrl}/${this.teachersResource}/questions/${data}`)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
+  updateAnswers(questionId: number, data){
+    return this.http
+    .post(`${this.apiUrl}/${this.teachersResource}/questions/${questionId}`, data, httpOptions)
+    .pipe(
+      map( el => el) 
+    );
+  }
+
+  removeAnswer(questionId: number, answerId: number){
+    return this.http
+    .delete(`${this.apiUrl}/${this.teachersResource}/questions/${questionId}/answers/${answerId}`)
     .pipe(
       map( el => el) 
     );

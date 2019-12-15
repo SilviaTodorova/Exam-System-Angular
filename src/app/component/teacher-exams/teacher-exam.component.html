@@ -16,6 +16,7 @@
       >
         <tr>
           <th class="text-center">№</th>
+          <th class="text-center">Код</th>
           <th class="text-center">Име</th>
           <th class="text-center">Брой въпроси</th>
           <th class="text-center">Време (минути)</th>
@@ -24,6 +25,9 @@
         <tr *ngFor="let exam of examList; let id = index">
           <td>
             <span>{{ id + 1 }}</span>
+          </td>
+          <td>
+            <span>{{ exam.code }}</span>
           </td>
           <td class="text-left">
             <span>{{ exam.title }}</span>
@@ -89,7 +93,7 @@
           </td>
         </tr>
         <tr *ngIf="!examList || examList.length == 0" >
-            <td colspan="4">
+            <td colspan="6">
                 <span>Няма данни</span>
               </td>
           </tr>
@@ -131,31 +135,3 @@
     </button>
   </div>
 </ng-template>
-
-
-<ng-template #preview let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title">Преглед на въпрос</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-      <h5>++++++++</h5>
-    </div>
-    <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-danger"
-        (click)="modal.close('Close click')"
-      >
-        Затвори
-      </button>
-    </div>
-  </ng-template>
-  

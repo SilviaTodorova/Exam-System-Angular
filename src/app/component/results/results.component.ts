@@ -29,6 +29,8 @@ export class ResultsComponent implements OnInit{
     }, error => {
       if(error.error.message){
         alert(error.error.message);
+      }else{
+        alert("Server error");
       }
       this.router.navigate(['/dashboard']);
     });

@@ -14,7 +14,7 @@ import { TeachersService } from 'src/app/services/teachers.service';
   providers: [NgbProgressbarConfig]
 })
 export class TeacherExamComponent implements OnInit {
-  examList: Array<Exam> = [];
+  examList: Exam[] = [];
   index: number = 0;
 
   constructor(private router: Router, 
@@ -37,7 +37,6 @@ export class TeacherExamComponent implements OnInit {
   }
 
   previewExam(title: string) {
-    console.log("ccc", title);
     this.router.navigate(['/component/preview-exam'], { 
      queryParams: { title: title } 
     });
@@ -48,11 +47,6 @@ export class TeacherExamComponent implements OnInit {
     this.modalService.open(content, { centered: true });
   }
 
-  deleteExam() {
-    // TODO: call service
-    this.examList.splice(this.index, 1);
-  }
-
   //Serivces
   loadExams(){
     this.teachersService.getAllTestByOwner().subscribe(data => {
@@ -60,9 +54,26 @@ export class TeacherExamComponent implements OnInit {
     }, error => {
       if(error.error.message){
         alert(error.error.message);
+      }else{
+        alert("Server error");
       }
       this.router.navigate(['/component/teacher-exam']);
     });
 
+  }
+
+  
+  deleteExam() {
+    //this.examList.splice(this.index, 1);
+    this.teachersService.deleteTest(this.examList[this.index].title).subscribe(data => {
+      this.loadExams();
+    }, error => {
+      if(error.error.message){
+        alert(error.error.message);
+      }else{
+        alert("Server error");
+      }
+      this.router.navigate(['/component/teacher-exam']);
+    });
   }
 }

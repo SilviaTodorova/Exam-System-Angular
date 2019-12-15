@@ -40,7 +40,11 @@ export class LoginComponent implements OnInit {
       this.accountService.setUsername(bind.username);
       this.router.navigate(['/dashboard']);
     }, error => {
-      alert(error.error.message);
+      if(error.error.message){
+        alert(error.error.message);
+      }else{
+        alert("Server error");
+      }
         // this.notifier.notify(
         //   "success",
         //   "You are awesome! I mean it!",
@@ -60,7 +64,11 @@ export class LoginComponent implements OnInit {
     .subscribe(data => {
       this.isSignInForm = true;
     }, error => {
-      alert(error.error.message);
+      if(error.error.message){
+        alert(error.error.message);
+      }else{
+        alert("Server error");
+      }
         // this.notifier.notify(
         //   "success",
         //   "You are awesome! I mean it!",

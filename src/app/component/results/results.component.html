@@ -1,5 +1,6 @@
 <div class="row">
   
+
   <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" *ngFor="let exam of exams">
       <div class="card">
           <div class="card-body">
@@ -20,4 +21,8 @@
       </div>
       </div>
   </div> 
+
+  <div class="col-12" *ngIf="!(exams && exams.length > 0 )">
+    <h4>Няма данни</h4>
+</div> 
 </div>

@@ -1,5 +1,5 @@
 <form class="login100-form validate-form" #loginForm="ngForm">
-  <div class="wrap-input100 validate-input m-b-26">
+  <div class="wrap-input100 validate-input m-b-26" style="cursor: not-allowed;">
     <span class="label-input100">Име</span>
     <input
       class="input100"
@@ -12,7 +12,20 @@
     <span class="focus-input100"></span>
   </div>
 
-  <div class="wrap-input100 validate-input m-b-18">
+  <div class="wrap-input100 validate-input m-b-26" style="cursor: not-allowed;">
+    <span class="label-input100">Код</span>
+    <input
+      class="input100"
+      type="text"
+      name="code"
+      disabled
+      #code="ngModel"
+      [(ngModel)]="model.code"
+    />
+    <span class="focus-input100"></span>
+  </div>
+
+  <div class="wrap-input100 validate-input m-b-18" style="cursor: not-allowed;">
     <span class="label-input100">Брой въпроси</span>
     <input
       class="input100"
@@ -26,7 +39,7 @@
     <span class="focus-input100"></span>
   </div>
 
-  <div class="wrap-input100 validate-input m-b-18">
+  <div class="wrap-input100 validate-input m-b-18" style="cursor: not-allowed;">
     <span class="label-input100">Време (минути)</span>
     <input
       class="input100"
@@ -44,7 +57,7 @@
 
 <div class="card">
   <div class="card-body">
-    <div id="table" class="table-editable">
+    <div id="table">
       <table
         class="table table-bordered table-responsive-md table-striped text-center"
       >
@@ -120,7 +133,7 @@
   <div class="modal-body">
     <!------------------------------- Answers table --------------------------------->
 
-    <div id="table" class="table-editable">
+    <div id="table">
       <table
         class="table table-bordered table-responsive-md table-striped text-center"
       >

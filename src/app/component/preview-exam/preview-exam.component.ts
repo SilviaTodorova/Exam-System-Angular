@@ -57,6 +57,8 @@ export class PreviewExamComponent implements OnInit {
     }, error => {
       if(error.error.message){
         alert(error.error.message);
+      }else{
+        alert("Server error");
       }
       this.router.navigate(['/component/teacher-exam']);
     });

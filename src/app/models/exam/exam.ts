@@ -1,5 +1,6 @@
 export class Exam {
     id: number;
+    code: string;
     title: string;
     countQuestions: number;
     timeLimit: number;

@@ -9,6 +9,7 @@
       minlength="4"
       #title="ngModel"
       [(ngModel)]="model.title"
+      (change)="updateExam()"
       placeholder="Въведете име на изпит"
     />
     <span class="focus-input100"></span>
@@ -25,6 +26,19 @@
     </div>
   </div>
 
+  <div class="wrap-input100 validate-input m-b-26" style="cursor: not-allowed;">
+    <span class="label-input100">Код</span>
+    <input
+      class="input100"
+      type="text"
+      name="code"
+      disabled
+      #code="ngModel"
+      [(ngModel)]="model.code"
+    />
+    <span class="focus-input100"></span>
+  </div>
+
   <div class="wrap-input100 validate-input m-b-18">
     <span class="label-input100">Брой въпроси</span>
     <input
@@ -32,10 +46,10 @@
       type="number"
       name="countQuestions"
       required
-      disabled
       #countQuestions="ngModel"
       [(ngModel)]="model.countQuestions"
-      value="{{ model.questions ? model.questions.length : 0 }}"
+      (change)="updateExam()"
+      value="{{ model.countQuestions }}"
       placeholder="0"
     />
     <span class="focus-input100"></span>
@@ -61,6 +75,7 @@
       required
       #timeLimit="ngModel"
       [(ngModel)]="model.timeLimit"
+      (change)="updateExam()"
       placeholder="Въведете време (минути)"
     />
     <span class="focus-input100"></span>
@@ -103,7 +118,7 @@
           <td class="text-left">
             <span
               contenteditable="true"
-              (blur)="changeValueQuestionTitle(question.orderId, $event)"
+              (change)="changeValueQuestionTitle(question.orderId, $event)"
               >{{ question.title }}</span
             >
           </td>
@@ -121,8 +136,8 @@
                   (click)="openModal(preview, question.orderId)"
                 >
                   <i
-                    class="fa fa-eye fa-lg"
-                    style="color: #28A745"
+                    class="fa fa-pencil-square-o fa-lg ml-2"
+                    style="color: #17A2B8"
                     aria-hidden="true"
                   ></i>
                 </button>
@@ -203,59 +218,52 @@
           <th class="text-center" width="10%">Правилен</th>
           <th class="text-center" width="10%">Действия</th>
         </tr>
-        <ng-template
-          [ngIf]="
-            model.questions[orderId - 1].answers &&
-            model.questions[orderId - 1].answers.length > 0
+        <tr
+          *ngFor="
+            let answer of model.questions[orderId - 1].answers;
+            let id = index
           "
         >
-          <tr
-            *ngFor="
-              let answer of model.questions[orderId - 1].answers;
-              let id = index
-            "
-          >
-            <td>
-              <span>{{ answer.orderId }}</span>
-            </td>
-            <td class="text-left">
-              <span
-                contenteditable="true"
-                (blur)="changeValueAnswerTitle(answer.orderId, $event)"
-                >{{ answer.title }}</span
-              >
-            </td>
-            <td class="text-center">
-              <input
-                type="checkbox"
-                name="answers"
-                [ngModel]="answer.correct"
-                (change)="selectAnswer(answer.orderId)"
-              />
-            </td>
-            <td>
+          <td>
+            <span>{{ answer.orderId }}</span>
+          </td>
+          <td class="text-left">
+            <span
+              contenteditable="true"
+              (blur)="changeValueAnswerTitle(answer.orderId, $event); modal.close('Close click')"
+              >{{ answer.title }}</span
+            >
+          </td>
+          <td class="text-center">
+            <input
+              type="checkbox"
+              name="answers"
+              [ngModel]="answer.correct"
+              (change)="selectAnswer(answer.orderId)"
+            />
+          </td>
+          <td>
+            <span class="table-remove">
               <span class="table-remove">
-                <span class="table-remove">
-                  <button
-                    type="button"
-                    mdbBtn
-                    color="danger"
-                    rounded="true"
-                    size="sm"
-                    class="my-0"
-                    (click)="removeAnswer(answer.orderId)"
-                  >
-                    <i
-                      class="fa fa-trash fa-lg ml-2"
-                      style="color: #F62D51"
-                      aria-hidden="true"
-                    ></i>
-                  </button>
-                </span>
+                <button
+                  type="button"
+                  mdbBtn
+                  color="danger"
+                  rounded="true"
+                  size="sm"
+                  class="my-0"
+                  (click)="removeAnswer(answer.id)"
+                >
+                  <i
+                    class="fa fa-trash fa-lg ml-2"
+                    style="color: #F62D51"
+                    aria-hidden="true"
+                  ></i>
+                </button>
               </span>
-            </td>
-          </tr>
-        </ng-template>
+            </span>
+          </td>
+        </tr>
         <tr
           *ngIf="
             !(
@@ -278,13 +286,6 @@
       (click)="modal.close('Close click')"
     >
       Затвори
-    </button>
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="saveQuestion(); modal.close('Close click')"
-    >
-      Запищи
     </button>
   </div>
 </ng-template>

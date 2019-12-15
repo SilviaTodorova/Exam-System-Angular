@@ -48,20 +48,7 @@ export class EditExamComponent implements OnInit {
 
   changeValueQuestionTitle(orderId: number, event: any) {
     if (this.model.questions) {
-      this.model.questions = this.model.questions.map(x => {
-        let tmp: Question = new Question();
-        tmp.orderId = x.orderId;
-        tmp.answers = x.answers;
-        tmp.id = x.id;
-
-        if (x.orderId == orderId) {
-          tmp.title = event.target.textContent;
-        } else {
-          tmp.title = x.title;
-        }
-
-        return tmp;
-      })
+      this.saveQuestion(event.target.textContent);
     }
   }
 
@@ -69,13 +56,6 @@ export class EditExamComponent implements OnInit {
   openModal(content, orderId) {
     this.modalService.open(content, { centered: true, size: 'lg' });
     this.orderId = orderId;
-
-    let orderAnsId = 1;
-    if (!this.model.questions[orderId - 1].answers) {
-      this.model.questions[orderId - 1].answers = [];
-    }
-
-    this.model.questions[orderId - 1].answers.map(x => x.orderId = orderAnsId++);
   }
 
   addAnswer() {
@@ -88,11 +68,9 @@ export class EditExamComponent implements OnInit {
     }
 
     let newAnswer: Answer = new Answer();
-    newAnswer.title = "Въведете въпрос";
-    console.log("max", max);
+    newAnswer.title = "Въведете отговор";
     newAnswer.orderId = (max) ? max + 1 : 1;
 
-    console.log(newAnswer);
     this.model.questions[this.orderId - 1].answers.push(newAnswer);
   }
 
@@ -104,9 +82,14 @@ export class EditExamComponent implements OnInit {
         x.correct = false;
       }
     })
+
+    this.updateAnswers();
   }
 
   changeValueAnswerTitle(orderId: number, event: any) {
+    console.log(orderId);
+    console.log(this.orderId);
+
     let order = 1;
     if (this.model.questions[this.orderId - 1].answers) {
       this.model.questions[this.orderId - 1].answers = this.model.questions[this.orderId - 1].answers.map(x => {
@@ -115,7 +98,6 @@ export class EditExamComponent implements OnInit {
         tmp.correct = x.correct;
         tmp.orderId = order++;
 
-        console.log(orderId, x.orderId);
         if (x.orderId == orderId) {
           tmp.title = event.target.textContent;
         } else {
@@ -124,12 +106,9 @@ export class EditExamComponent implements OnInit {
 
         return tmp;
       })
-    }
-  }
 
-  //TODO:
-  removeAnswer(id: any) {
-    this.model.questions[this.orderId - 1].answers.splice(id - 1, 1);
+      this.updateAnswers();
+    }
   }
 
   //Service
@@ -140,17 +119,85 @@ export class EditExamComponent implements OnInit {
       let orderId: number = 1;
       if (this.model.questions) {
         this.model.questions.map(x => x.orderId = orderId++);
+
+        this.model.questions.map(x=>{
+          if(x.answers){
+            let orderAnsId = 1;
+            if (!x.answers) {
+              x.answers = [];
+            }
+        
+            x.answers.map(x => x.orderId = orderAnsId++);
+          }
+        })
+       
       }
+
+      console.log(this.model);
     }, error => {
       if (error.error.message) {
         alert(error.error.message);
+      } else {
+        alert("Server error");
       }
     });
   }
 
-  saveQuestion() {
-    let question: Question = this.model.questions[this.orderId - 1];
-    let answers = question.answers.map(x => {
+  updateExam(){
+    let bind = {
+      title: this.model.title,
+      timeLimit: this.model.timeLimit,
+      countQuestions: this.model.countQuestions
+    };
+
+    this.teachersService.updateTest(this.questTitle, bind).subscribe(data => {
+     this.loadExam();
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      } else {
+        alert("Server error");
+      }
+    });
+  }
+
+  removeQuestion(id: any) {
+    let questionId = this.model.questions[id].id;
+    this.teachersService.removeQuestion(questionId).subscribe(data => {
+      this.loadExam();
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      } else {
+        alert("Server error");
+      }
+
+      this.router.navigate(['/component/teacher-exam']);
+    });
+  }
+
+  saveQuestion(title: string) {
+    let bind = {
+      title: title,
+      answers: []
+    };
+
+    this.teachersService.createQuestionToTest(this.questTitle, bind).subscribe(data => {
+      this.loadExam();
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      } else {
+        alert("Server error");
+      }
+      this.router.navigate(['/component/teacher-exam']);
+    });
+  }
+
+  updateAnswers() {
+    let questionId = this.model.questions[this.orderId - 1].id;
+    
+    let answers = this.model.questions[this.orderId - 1].answers.map(x=>{
       let tmp = {
         title: x.title,
         correct: x.correct
@@ -159,39 +206,27 @@ export class EditExamComponent implements OnInit {
       return tmp;
     });
 
-    let bind = {
-      title: question.title,
-      answers: answers
-    };
-
-    this.teachersService.createQuestionToTest(this.questTitle, bind).subscribe(data => {
+    this.teachersService.updateAnswers(questionId, answers).subscribe(data => {
       this.loadExam();
     }, error => {
       if (error.error.message) {
         alert(error.error.message);
-      }else{
-        alert("Error");
+      } else {
+        alert("Server error");
       }
-      this.router.navigate(['/component/teacher-exam']);
     });
   }
 
-    //TODO:
-    removeQuestion(id: any) {
-      // this.model.questions.splice(id, 1);
-  
-      console.log(this.model);
-      let questionId = this.model.questions[id].id;
-      console.log(questionId);
-      this.teachersService.removeQuestion(questionId).subscribe(data => {
-        this.loadExam();
-      }, error => {
-        if (error.error.message) {
-          alert(error.error.message);
-        }else{
-          alert("Error");
-        }
-        this.router.navigate(['/component/teacher-exam']);
-      });
-    }
+  removeAnswer(answerId: any) {
+    let questionId = this.model.questions[this.orderId - 1].id;
+    this.teachersService.removeAnswer(questionId, answerId).subscribe(data => {
+      this.loadExam();
+    }, error => {
+      if (error.error.message) {
+        alert(error.error.message);
+      } else {
+        alert("Server error");
+      }
+    });
+  }
 }
