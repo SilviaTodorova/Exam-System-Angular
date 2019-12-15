@@ -30,16 +30,17 @@ export class TeacherExamComponent implements OnInit {
     this.router.navigate(['/component/add-exam']);
   }
 
-  editExam(title: number) {
+  editExam(id: number) {
     this.router.navigate(['/component/edit-exam'], { 
-      queryParams: { title: title } 
+      queryParams: { id: id } 
     });
+
   }
 
-  previewExam(title: string) {
+  previewExam(id: string) {
     this.router.navigate(['/component/preview-exam'], { 
-     queryParams: { title: title } 
-    });
+      queryParams: { id: id } 
+     });
   }
 
   openModal(content, index: number) {
@@ -50,7 +51,11 @@ export class TeacherExamComponent implements OnInit {
   //Serivces
   loadExams(){
     this.teachersService.getAllTestByOwner().subscribe(data => {
-      this.examList = data;
+      if(data){
+        this.examList = data;
+        this.examList = this.examList.sort((x,y)=>x.id - y.id);
+      }
+      
     }, error => {
       if(error.error.message){
         alert(error.error.message);
@@ -64,8 +69,7 @@ export class TeacherExamComponent implements OnInit {
 
   
   deleteExam() {
-    //this.examList.splice(this.index, 1);
-    this.teachersService.deleteTest(this.examList[this.index].title).subscribe(data => {
+    this.teachersService.deleteTest(this.examList[this.index].id).subscribe(data => {
       this.loadExams();
     }, error => {
       if(error.error.message){

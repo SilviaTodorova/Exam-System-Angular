@@ -48,9 +48,9 @@ export class TeachersService {
     );
   }
 
-  updateTest(title: string, data: any) : Observable<any> {
+  updateTest(id: number, data: any) : Observable<any> {
     return this.http
-    .put(`${this.apiUrl}/${this.teachersResource}/tests/${title}`, data, httpOptions)
+    .put(`${this.apiUrl}/${this.teachersResource}/tests/${id}`, data, httpOptions)
     .pipe(
       map( el => el) 
     );
@@ -64,9 +64,9 @@ export class TeachersService {
     );
   }
   
-  createQuestionToTest(title: string, data: any) : Observable<any> {
+  createQuestionToTest(id: number, data: any) : Observable<any> {
     return this.http
-    .post(`${this.apiUrl}/${this.teachersResource}/tests/${title}/questions`, data, httpOptions)
+    .post(`${this.apiUrl}/${this.teachersResource}/tests/${id}/questions`, data, httpOptions)
     .pipe(
       map( el => el) 
     );

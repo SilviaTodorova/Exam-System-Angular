@@ -47,7 +47,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="previewExam(exam.title)"
+                (click)="previewExam(exam.id)"
               >
                 <i
                   class="fa fa-eye fa-lg"
@@ -64,7 +64,7 @@
                 rounded="true"
                 size="sm"
                 class="my-0"
-                (click)="editExam(exam.title)"
+                (click)="editExam(exam.id)"
               >
                 <i
                   class="fa fa-pencil-square-o fa-lg ml-2"
@@ -116,7 +116,7 @@
     </button>
   </div>
   <div class="modal-body">
-    <h5>Сигурни ли сте, че искате на изтриете избрания въпрос?</h5>
+    <h5>Сигурни ли сте, че искате на изтриете избрания тест?</h5>
   </div>
   <div class="modal-footer">
     <button

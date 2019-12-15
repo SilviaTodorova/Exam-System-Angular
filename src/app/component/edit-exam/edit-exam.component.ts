@@ -11,7 +11,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
 })
 
 export class EditExamComponent implements OnInit {
-  questTitle: string = "";
+  id: number = 0;
+
   model: Exam = new Exam();
   orderId: number = 0;
 
@@ -22,10 +23,11 @@ export class EditExamComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['title'] != undefined) {
-        this.questTitle = params['title'];
+      if (params['id'] != undefined) {
+        this.id = params['id'];
         this.loadExam();
       }
+
     });
   }
 
@@ -33,6 +35,7 @@ export class EditExamComponent implements OnInit {
   addQuestion() {
     let max = 0;
     if (this.model.questions && this.model.questions.length > 0) {
+      //this.model.questions = this.model.questions.sort((x,y)=>x.id - y.id);
       let orderIds = this.model.questions.map(x => x.orderId).sort();
       max = orderIds[orderIds.length - 1];
     } else {
@@ -87,9 +90,6 @@ export class EditExamComponent implements OnInit {
   }
 
   changeValueAnswerTitle(orderId: number, event: any) {
-    console.log(orderId);
-    console.log(this.orderId);
-
     let order = 1;
     if (this.model.questions[this.orderId - 1].answers) {
       this.model.questions[this.orderId - 1].answers = this.model.questions[this.orderId - 1].answers.map(x => {
@@ -113,27 +113,26 @@ export class EditExamComponent implements OnInit {
 
   //Service
   loadExam() {
-    this.teachersService.getTest(this.questTitle).subscribe(data => {
+    this.teachersService.getTest(this.id).subscribe(data => {
       this.model = data;
 
       let orderId: number = 1;
       if (this.model.questions) {
+        this.model.questions = this.model.questions.sort((x, y) => x.id - y.id);
+
         this.model.questions.map(x => x.orderId = orderId++);
 
-        this.model.questions.map(x=>{
-          if(x.answers){
+        this.model.questions.map(x => {
+          if (x.answers) {
             let orderAnsId = 1;
             if (!x.answers) {
               x.answers = [];
             }
-        
+
             x.answers.map(x => x.orderId = orderAnsId++);
           }
         })
-       
       }
-
-      console.log(this.model);
     }, error => {
       if (error.error.message) {
         alert(error.error.message);
@@ -143,15 +142,15 @@ export class EditExamComponent implements OnInit {
     });
   }
 
-  updateExam(){
+  updateExam() {
     let bind = {
       title: this.model.title,
       timeLimit: this.model.timeLimit,
       countQuestions: this.model.countQuestions
     };
 
-    this.teachersService.updateTest(this.questTitle, bind).subscribe(data => {
-     this.loadExam();
+    this.teachersService.updateTest(this.id, bind).subscribe(data => {
+      this.loadExam();
     }, error => {
       if (error.error.message) {
         alert(error.error.message);
@@ -182,7 +181,7 @@ export class EditExamComponent implements OnInit {
       answers: []
     };
 
-    this.teachersService.createQuestionToTest(this.questTitle, bind).subscribe(data => {
+    this.teachersService.createQuestionToTest(this.id, bind).subscribe(data => {
       this.loadExam();
     }, error => {
       if (error.error.message) {
@@ -196,8 +195,8 @@ export class EditExamComponent implements OnInit {
 
   updateAnswers() {
     let questionId = this.model.questions[this.orderId - 1].id;
-    
-    let answers = this.model.questions[this.orderId - 1].answers.map(x=>{
+
+    let answers = this.model.questions[this.orderId - 1].answers.map(x => {
       let tmp = {
         title: x.title,
         correct: x.correct
@@ -207,7 +206,7 @@ export class EditExamComponent implements OnInit {
     });
 
     this.teachersService.updateAnswers(questionId, answers).subscribe(data => {
-      this.loadExam();
+      //this.loadExam();
     }, error => {
       if (error.error.message) {
         alert(error.error.message);

@@ -99,6 +99,11 @@ export class ExamComponent implements OnInit {
         this.isExamStarted = true;
         let orderId = 1;
         this.exam = data;
+
+        //Temp
+        this.exam.questions.map(x => {
+          x.answers.map(x=>x.correct = false);
+        });
         this.exam.questions.map(x => x.orderId = orderId++);
         this.timeLeft = this.exam.timeLimit * 60;
         this.timeConvert(this.timeLeft);

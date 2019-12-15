@@ -158,6 +158,18 @@
             />
           </td>
         </tr>
+        <tr
+        *ngIf="
+          !(
+            model.questions[orderId - 1].answers &&
+            model.questions[orderId - 1].answers.length > 0
+          )
+        "
+      >
+        <td colspan="4">
+          Няма данни
+        </td>
+      </tr>
       </table>
     </div>
   </div>

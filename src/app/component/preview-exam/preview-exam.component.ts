@@ -12,7 +12,8 @@ import { TeachersService } from 'src/app/services/teachers.service';
   styleUrls: ['./preview-exam.component.css']
 })
 export class PreviewExamComponent implements OnInit {
-  title: string;
+  id: number;
+
   orderId: number;
   questionsList: Question[] = [];
   model: Exam = new Exam();
@@ -24,8 +25,8 @@ export class PreviewExamComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
-      if (params['title'] != undefined) {
-        this.title = params['title'];
+      if (params['id'] != undefined) {
+        this.id = params['id'];
         this.loadExam();
       }
     });
@@ -38,8 +39,7 @@ export class PreviewExamComponent implements OnInit {
 
   //Service
   loadExam() {
-    this.teachersService.getTest(this.title).subscribe(data => {
-      console.log("data", data);
+    this.teachersService.getTest(this.id).subscribe(data => {
       this.model = data;
 
       let orderId: number = 1;

@@ -118,7 +118,7 @@
           <td class="text-left">
             <span
               contenteditable="true"
-              (change)="changeValueQuestionTitle(question.orderId, $event)"
+              (blur)="changeValueQuestionTitle(question.orderId, $event)"
               >{{ question.title }}</span
             >
           </td>
@@ -230,7 +230,7 @@
           <td class="text-left">
             <span
               contenteditable="true"
-              (blur)="changeValueAnswerTitle(answer.orderId, $event); modal.close('Close click')"
+              (blur)="changeValueAnswerTitle(answer.orderId, $event);"
               >{{ answer.title }}</span
             >
           </td>
@@ -239,7 +239,7 @@
               type="checkbox"
               name="answers"
               [ngModel]="answer.correct"
-              (change)="selectAnswer(answer.orderId)"
+              (change)="selectAnswer(answer.orderId);"
             />
           </td>
           <td>
@@ -283,7 +283,7 @@
     <button
       type="button"
       class="btn btn-danger"
-      (click)="modal.close('Close click')"
+      (click)="modal.close('Close click'); this.loadExam();"
     >
       Затвори
     </button>

@@ -26,6 +26,34 @@
           <span class="focus-input100"></span>
         </div>
 
+        <div
+        class="wrap-input100 validate-input m-b-26"
+        data-validate="Username is required"
+      >
+        <span class="label-input100">Име</span>
+        <input
+          class="input100"
+          type="text"
+          name="username"
+          placeholder="Въведете име"
+        />
+        <span class="focus-input100"></span>
+      </div>
+
+      <div
+      class="wrap-input100 validate-input m-b-26"
+      data-validate="Username is required"
+    >
+      <span class="label-input100">ФН</span>
+      <input
+        class="input100"
+        type="text"
+        name="username"
+        placeholder="Въведете факултетен номер"
+      />
+      <span class="focus-input100"></span>
+    </div>
+
         <div class="container-login100-form-btn">
           <button
             class="btn btn-block btn-info-custom text-white ml-3"
@@ -61,8 +89,8 @@
                       class="table table-bordered table-responsive-md table-striped"
                     >
                       <tr>
-                        <th>{{ orderId }}</th>
-                        <th>
+                        <th width="5%">{{ orderId }}</th>
+                        <th width="95%">
                           {{ exam.questions[orderId - 1].title }}
                         </th>
                       </tr>
